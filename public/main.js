@@ -251,7 +251,7 @@ $(function() {
   socket.on('users updated', function (data) {
     $users.html("");
     for (i = 0; i < data.length; i++) {
-      $users.prepend("<li><a>"+data.username+"</a></li>");
+      $users.prepend("<li><a>"+data[i].username+"</a></li>");
     }
   });
 
