@@ -14,7 +14,6 @@ var io = require('socket.io')(server);
 var port = process.env.PORT || 8888;
 
 
-var socket.receiver="brand.abanca";
 
 // Log any errors connected to the db
 db.connect(function(err){
@@ -39,6 +38,8 @@ app.use(express.static(__dirname + '/public'));
 var numUsers = 0;
 
 io.on('connection', function (socket) {
+  
+  var socket.receiver="brand.abanca";
   var addedUser = false;
 
   // when the client emits 'new message', this listens and executes
