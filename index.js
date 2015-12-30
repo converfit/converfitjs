@@ -37,18 +37,19 @@ io.on('connection', function (socket) {
     // we store the username in the socket session for this client
     socket.username = username;
 
-    console.log("Conectados OLD:");
+
+    /*console.log("Conectados OLD:");
     for (i = 0; i < users.length; i++) {
       console.log("["+users[i].socket+"] "+users[i].username);
     }
+*/
 
-    user.socket = socket.id;
-    user.username = username;
-    users[i+1]=user;
+    var fruits = ["Banana", "Orange", "Apple", "Mango"];
+    fruits.push("Kiwi");;
 
     console.log("Conectados:");
-    for (i = 0; i < users.length; i++) {
-      console.log("["+users[i].socket+"] "+users[i].username);
+    for (i = 0; i < fruits.length; i++) {
+      console.log("["+fruits[i]+"]");
     }
 
     ++numUsers;
