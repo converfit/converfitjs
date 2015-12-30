@@ -48,8 +48,8 @@ io.on('connection', function (socket) {
     users.push(socket.username);
 
     console.log("Conectados:");
-    for (i = 0; i < fruits.length; i++) {
-      console.log("["+fruits[i]+"]");
+    for (i = 0; i < users.length; i++) {
+      console.log("["+users[i]+"]");
     }
 
     ++numUsers;
