@@ -13,7 +13,7 @@ var server = require('http').createServer(app);
 var io = require('socket.io')(server);
 var port = process.env.PORT || 8888;
 
-var users = new Array();
+var clients = [];
 
 // Log any errors connected to the db
 db.connect(function(err){
@@ -47,7 +47,7 @@ io.on('connection', function (socket) {
     Date.now = function() { return new Date().getTime(); }
     var message = {
       owner:socket.receiver,
-      sender:socket.sender,
+      sender:socket.username,
       receiver:socket.receiver,
       type:"chat",
       lang:"en",
@@ -57,8 +57,8 @@ io.on('connection', function (socket) {
     };
     db.query('INSERT INTO messages SET ?', message);
     message = {
-      owner:socket.sender,
-      sender:socket.sender,
+      owner:socket.username,
+      sender:socket.username,
       receiver:socket.receiver,
       type:"chat",
       lang:"en",
@@ -68,7 +68,7 @@ io.on('connection', function (socket) {
     };
     db.query('INSERT INTO messages SET ?', message);
     socket.broadcast.emit('new message', {
-      username: socket.sender,
+      username: socket.username,
       message: data
     });
   });
@@ -80,9 +80,9 @@ io.on('connection', function (socket) {
 
     socket.receiver="brand.abanca";
     // we store the username in the socket session for this client
-    socket.sender = username;
+    socket.username = username;
 
-    db.query('SELECT * FROM messages WHERE owner = ?', [socket.sender], function(err, rows, fields) {
+    db.query('SELECT * FROM messages WHERE owner = ?', [socket.username], function(err, rows, fields) {
       if (err) throw err;
       for (var i = 0; i < rows.length; i++) {
         socket.emit('new message',{
@@ -110,24 +110,26 @@ io.on('connection', function (socket) {
   // when the client emits 'typing', we broadcast it to others
   socket.on('typing', function () {
     socket.broadcast.emit('typing', {
-      username: socket.sender
+      username: socket.username
     });
   });
 
   // when the client emits 'stop typing', we broadcast it to others
   socket.on('stop typing', function () {
     socket.broadcast.emit('stop typing', {
-      username: socket.sender
+      username: socket.username
     });
   });
 
   // when the user disconnects.. perform this
   socket.on('disconnect', function () {
+    clients.splice(clients.indexOf(socket.username), 1);
+
     if (addedUser) {
       --numUsers;
       // echo globally that this client has left
       socket.broadcast.emit('user left', {
-        username: socket.sender,
+        username: socket.username,
         numUsers: numUsers
       });
     }
