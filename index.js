@@ -45,7 +45,6 @@ io.on('connection', function (socket) {
     console.log("Conectados:");
     for (i = 0; i < users.length; i++) {
       console.log("["+users[i].socket+"] "+users[i].username);
-        text += cars[i] + "<br>";
     }
     ++numUsers;
     addedUser = true;
