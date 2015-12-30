@@ -11,6 +11,7 @@ $(function() {
   var $window = $(window);
   var $usernameInput = $('.usernameInput'); // Input for username
   var $messages = $('.messages'); // Messages area
+  var $users = $('.users'); // Messages area
   var $inputMessage = $('.inputMessage'); // Input message input box
 
   var $loginPage = $('.login.page'); // The login page
@@ -248,9 +249,9 @@ $(function() {
   });
 
   socket.on('users updated', function (data) {
-    console.error("Conectados:");
+    $users.html("");
     for (i = 0; i < data.length; i++) {
-      console.error("["+data[i].id+"]");
+      $users.prepend("<li><a>"+data.username+"</a></li>");
     }
   });
 
