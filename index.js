@@ -51,6 +51,7 @@ io.on('connection', function (socket) {
       created:Date().getTime()
     };
     db.query('INSERT INTO messages SET ?', message);
+    
     socket.broadcast.emit('new message', {
       username: socket.username,
       message: data
