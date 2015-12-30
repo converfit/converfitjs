@@ -13,7 +13,7 @@ var server = require('http').createServer(app);
 var io = require('socket.io')(server);
 var port = process.env.PORT || 8888;
 
-
+var users = new Array();
 
 // Log any errors connected to the db
 db.connect(function(err){
@@ -38,8 +38,6 @@ app.use(express.static(__dirname + '/public'));
 var numUsers = 0;
 
 io.on('connection', function (socket) {
-
-  socket.receiver="brand.abanca";
 
   var addedUser = false;
 
@@ -79,10 +77,16 @@ io.on('connection', function (socket) {
   socket.on('add user', function (username) {
     if (addedUser) return;
 
+    io.sockets.emit('user joined', {
+      username: socket.sender,
+      numUsers: 1
+
+    });
+
+
     // we store the username in the socket session for this client
     socket.sender = username;
 
-    console.log('SELECT * FROM messages WHERE owner = '+socket.sender);
     db.query('SELECT * FROM messages WHERE owner = ?', [socket.sender], function(err, rows, fields) {
       if (err) throw err;
       for (var i = 0; i < rows.length; i++) {
@@ -124,7 +128,6 @@ io.on('connection', function (socket) {
   socket.on('disconnect', function () {
     if (addedUser) {
       --numUsers;
-
       // echo globally that this client has left
       socket.broadcast.emit('user left', {
         username: socket.sender,
