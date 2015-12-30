@@ -58,7 +58,7 @@ io.on('connection', function (socket) {
       numUsers: numUsers
     });
 
-    sockets.emit('users updated', users);
+    io.sockets.emit('users updated', users);
 
     socket.broadcast.emit('user joined', {
       username: socket.username,
