@@ -79,12 +79,19 @@ io.on('connection', function (socket) {
   socket.on('add user', function (username) {
     if (addedUser) return;
 
+    socket.join('test room');
+    var clients = io.sockets.adapter.rooms['test room'];
+    console.log(clients);
+    for (var clientId in clients) {
+      console.log(io.sockets.connected[clientId]);
+    }
+
     // we store the username in the socket session for this client
     socket.username = username;
 
     clients=io.sockets.clients();
     for (var i = 0; i < clients.length; i++) {
-      console.log(clients[i]);
+      console.log(clients[i]):
     }
 
     console.log('SELECT * FROM messages WHERE owner = '+socket.username);
