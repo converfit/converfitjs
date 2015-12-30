@@ -41,6 +41,7 @@ io.on('connection', function (socket) {
   // when the client emits 'new message', this listens and executes
   socket.on('new message', function (data) {
 
+    Date.now = function() { return new Date().getTime(); }
     var message = {
       to:"brand.abanca",
       from:socket.username,
@@ -48,10 +49,9 @@ io.on('connection', function (socket) {
       lang:"en",
       body:data,
       unread:"1",
-      created:Date().getTime()
+      created:Date.now
     };
     db.query('INSERT INTO messages SET ?', message);
-    
     socket.broadcast.emit('new message', {
       username: socket.username,
       message: data
