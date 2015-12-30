@@ -45,7 +45,7 @@ io.on('connection', function (socket) {
     }
 */
 
-    users.push({id:socket.id,username:socket.username);
+    users.push({id:socket.id,username:socket.username});
 
     console.log("Conectados:");
     for (i = 0; i < users.length; i++) {
