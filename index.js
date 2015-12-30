@@ -43,9 +43,20 @@ io.on('connection', function (socket) {
 
     Date.now = function() { return new Date().getTime(); }
     var message = {
-      owner:socket.username,
-      sender:socket.username,
-      receiver:"brand.abanca",
+      owner:socket.receiver,
+      sender:socket.sender,
+      receiver:socket.receiver,
+      type:"chat",
+      lang:"en",
+      body:data,
+      unread:"0",
+      created:Date.now
+    };
+    db.query('INSERT INTO messages SET ?', message);
+    message = {
+      owner:socket.sender,
+      sender:socket.sender,
+      receiver:socket.receiver,
       type:"chat",
       lang:"en",
       body:data,
@@ -54,7 +65,7 @@ io.on('connection', function (socket) {
     };
     db.query('INSERT INTO messages SET ?', message);
     socket.broadcast.emit('new message', {
-      username: socket.username,
+      username: socket.sender,
       message: data
     });
   });
@@ -64,7 +75,7 @@ io.on('connection', function (socket) {
     if (addedUser) return;
 
     // we store the username in the socket session for this client
-    socket.username = username;
+    socket.sender = username;
     ++numUsers;
     addedUser = true;
     socket.emit('login', {
@@ -72,7 +83,7 @@ io.on('connection', function (socket) {
     });
     // echo globally (all clients) that a person has connected
     socket.broadcast.emit('user joined', {
-      username: socket.username,
+      username: socket.sender,
       numUsers: numUsers
     });
   });
@@ -80,14 +91,14 @@ io.on('connection', function (socket) {
   // when the client emits 'typing', we broadcast it to others
   socket.on('typing', function () {
     socket.broadcast.emit('typing', {
-      username: socket.username
+      username: socket.sender
     });
   });
 
   // when the client emits 'stop typing', we broadcast it to others
   socket.on('stop typing', function () {
     socket.broadcast.emit('stop typing', {
-      username: socket.username
+      username: socket.sender
     });
   });
 
@@ -98,7 +109,7 @@ io.on('connection', function (socket) {
 
       // echo globally that this client has left
       socket.broadcast.emit('user left', {
-        username: socket.username,
+        username: socket.sender,
         numUsers: numUsers
       });
     }
