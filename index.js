@@ -41,7 +41,6 @@ io.on('connection', function (socket) {
 
   socket.receiver="brand.abanca";
 
-
   var addedUser = false;
 
   // when the client emits 'new message', this listens and executes
@@ -82,6 +81,12 @@ io.on('connection', function (socket) {
 
     // we store the username in the socket session for this client
     socket.sender = username;
+
+    db.query('SELECT FROM messages WHERE owner = ?', socket.sender,function(err, rows, fields) {
+      if (err) throw err;
+      console.log('The solution is: ', rows[0].solution);
+    });
+
     ++numUsers;
     addedUser = true;
     socket.emit('login', {
