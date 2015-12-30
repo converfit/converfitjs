@@ -34,6 +34,7 @@ io.on('connection', function (socket) {
 
     // we store the username in the socket session for this client
     socket.username = username;
+    console.log(username + " connected");
     ++numUsers;
     addedUser = true;
     socket.emit('login', {
