@@ -4,6 +4,10 @@ var fs = require('fs');
 
 app.listen(8888);
 
+app.get('/', function (req, res) {
+  res.send('Hello World!');
+});
+
 function handler (req, res) {
   fs.readFile(__dirname + '/index.html',
   function (err, data) {

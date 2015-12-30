@@ -8,6 +8,7 @@ var db = mysql.createConnection({
 })
 var express = require('express');
 var app = express();
+
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
 var port = process.env.PORT || 8888;
@@ -39,13 +40,21 @@ io.on('connection', function (socket) {
 
   // when the client emits 'new message', this listens and executes
   socket.on('new message', function (data) {
-    // we tell the client to execute 'new message'
+
+    var message = {
+      to:"brand.abanca",
+      from:socket.username,
+      type:"chat",
+      lang:"en",
+      body:data,
+      unread:"1",
+      created:Date().getTime()
+    };
+    db.query('INSERT INTO messages SET ?', message);
     socket.broadcast.emit('new message', {
       username: socket.username,
       message: data
     });
-    var message = {username:socket.username,message:data};
-    db.query('INSERT INTO messages SET ?', message);
   });
 
   // when the client emits 'add user', this listens and executes
