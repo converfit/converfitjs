@@ -13,7 +13,7 @@ var server = require('http').createServer(app);
 var io = require('socket.io')(server);
 var port = process.env.PORT || 8888;
 
-var clients = [];
+
 
 // Log any errors connected to the db
 db.connect(function(err){
@@ -38,6 +38,8 @@ app.use(express.static(__dirname + '/public'));
 var numUsers = 0;
 
 io.on('connection', function (socket) {
+
+  socket.receiver="brand.abanca";
 
   var addedUser = false;
 
@@ -75,16 +77,16 @@ io.on('connection', function (socket) {
 
   // when the client emits 'add user', this listens and executes
   socket.on('add user', function (username) {
-
     if (addedUser) return;
 
-    socket.receiver="brand.abanca";
     // we store the username in the socket session for this client
     socket.username = username;
 
+    console.log('SELECT * FROM messages WHERE owner = '+socket.username);
     db.query('SELECT * FROM messages WHERE owner = ?', [socket.username], function(err, rows, fields) {
       if (err) throw err;
       for (var i = 0; i < rows.length; i++) {
+        console.log(rows[i].owner);
         socket.emit('new message',{
           username:rows[i].sender,
           message: rows[i].body
@@ -97,14 +99,11 @@ io.on('connection', function (socket) {
     socket.emit('login', {
       numUsers: numUsers
     });
-
-    users.push(username);
-
-    io.sockets.emit('users list', {
-      users: users
+    // echo globally (all clients) that a person has connected
+    socket.broadcast.emit('user joined', {
+      username: socket.username,
+      numUsers: numUsers
     });
-
-
   });
 
   // when the client emits 'typing', we broadcast it to others
@@ -123,10 +122,9 @@ io.on('connection', function (socket) {
 
   // when the user disconnects.. perform this
   socket.on('disconnect', function () {
-    clients.splice(clients.indexOf(socket.username), 1);
-
     if (addedUser) {
       --numUsers;
+
       // echo globally that this client has left
       socket.broadcast.emit('user left', {
         username: socket.username,
