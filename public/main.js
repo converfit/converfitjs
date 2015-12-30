@@ -247,6 +247,13 @@ $(function() {
     addParticipantsMessage(data);
   });
 
+  socket.on('users updated', function (data) {
+    console.error("Conectados:");
+    for (i = 0; i < data.length; i++) {
+      console.error("["+data[i].id+"]");
+    }
+  });
+
   // Whenever the server emits 'user left', log it in the chat body
   socket.on('user left', function (data) {
     log(data.username + ' left');
