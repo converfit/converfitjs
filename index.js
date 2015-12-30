@@ -43,8 +43,9 @@ io.on('connection', function (socket) {
 
     Date.now = function() { return new Date().getTime(); }
     var message = {
-      to:"brand.abanca",
-      from:socket.username,
+      owner:socket.username,
+      sender:socket.username,
+      receiver:"brand.abanca",
       type:"chat",
       lang:"en",
       body:data,
