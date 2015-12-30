@@ -17,6 +17,8 @@ app.use(express.static(__dirname + '/public'));
 var numUsers = 0;
 var users = [];
 var user = {};
+var fruits = ["Banana", "Orange", "Apple", "Mango"];
+
 
 io.on('connection', function (socket) {
   var addedUser = false;
@@ -44,7 +46,6 @@ io.on('connection', function (socket) {
     }
 */
 
-    var fruits = ["Banana", "Orange", "Apple", "Mango"];
     fruits.push("Kiwi");;
 
     console.log("Conectados:");
