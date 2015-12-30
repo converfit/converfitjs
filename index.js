@@ -89,10 +89,6 @@ io.on('connection', function (socket) {
     // we store the username in the socket session for this client
     socket.username = username;
 
-    clients=io.sockets.clients();
-    for (var i = 0; i < clients.length; i++) {
-      console.log(clients[i]):
-    }
 
     console.log('SELECT * FROM messages WHERE owner = '+socket.username);
     db.query('SELECT * FROM messages WHERE owner = ?', [socket.username], function(err, rows, fields) {
