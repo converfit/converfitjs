@@ -85,7 +85,7 @@ io.on('connection', function (socket) {
     db.query('SELECT * FROM messages WHERE owner = ?', [socket.sender], function(err, rows, fields) {
       if (err) throw err;
       for (var i = 0; i < rows.length; i++) {
-        console.log(rows[i].name);
+        console.log(rows[i].owner);
       };
     });
 
