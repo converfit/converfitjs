@@ -113,6 +113,12 @@ $(function() {
     });
   }
 
+  function updateUsersList(data){
+    for (var i = 0; i < data.length; i++) {
+      console.error(data[i]);
+    };
+  }
+
   // Adds a message element to the messages and scrolls to the bottom
   // el - The element to add as a message
   // options.fade - If the element should fade-in (default = true)
@@ -239,6 +245,11 @@ $(function() {
   // Whenever the server emits 'new message', update the chat body
   socket.on('new message', function (data) {
     addChatMessage(data);
+  });
+
+  // Whenever the server emits 'new message', update the chat body
+  socket.on('users list', function (data) {
+    updateUsersList(data);
   });
 
   // Whenever the server emits 'user joined', log it in the chat body

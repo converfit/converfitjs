@@ -77,11 +77,6 @@ io.on('connection', function (socket) {
   socket.on('add user', function (username) {
     if (addedUser) return;
 
-    io.sockets.emit('user joined', {
-      username: socket.sender,
-      numUsers: 1000
-
-    });
 
 
     // we store the username in the socket session for this client
@@ -90,7 +85,6 @@ io.on('connection', function (socket) {
     db.query('SELECT * FROM messages WHERE owner = ?', [socket.sender], function(err, rows, fields) {
       if (err) throw err;
       for (var i = 0; i < rows.length; i++) {
-        console.log(rows[i].owner);
         socket.emit('new message',{
           username:rows[i].sender,
           message: rows[i].body
@@ -103,11 +97,14 @@ io.on('connection', function (socket) {
     socket.emit('login', {
       numUsers: numUsers
     });
-    // echo globally (all clients) that a person has connected
-    socket.broadcast.emit('user joined', {
-      username: socket.sender,
-      numUsers: numUsers
+
+    users.push(username);
+
+    io.sockets.emit('users list', {
+      users: users
     });
+
+
   });
 
   // when the client emits 'typing', we broadcast it to others
