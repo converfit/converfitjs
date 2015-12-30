@@ -79,7 +79,7 @@ io.on('connection', function (socket) {
 
     io.sockets.emit('user joined', {
       username: socket.sender,
-      numUsers: 1
+      numUsers: 1000
 
     });
 
