@@ -81,11 +81,16 @@ io.on('connection', function (socket) {
 
     // we store the username in the socket session for this client
     socket.sender = username;
+
     console.log('SELECT * FROM messages WHERE owner = '+socket.sender);
     db.query('SELECT * FROM messages WHERE owner = ?', [socket.sender], function(err, rows, fields) {
       if (err) throw err;
       for (var i = 0; i < rows.length; i++) {
         console.log(rows[i].owner);
+        socket.emit('new message',{
+          username:rows[i].sender,
+          message: rows[i].body
+        })
       };
     });
 
