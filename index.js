@@ -1,30 +1,9 @@
 // Setup basic express server
-var mysql = require('mysql');
-var db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password : 'C1t10us@MySql-1',
-    database: 'node'
-})
 var express = require('express');
 var app = express();
-
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
 var port = process.env.PORT || 8888;
-
-
-
-// Log any errors connected to the db
-db.connect(function(err){
-    if (err) console.log(err)
-})
-
-// Define/initialize our global vars
-var notes = []
-var isInitNotes = false
-var socketCount = 0
-
 
 server.listen(port, function () {
   console.log('Server listening at port %d', port);
@@ -38,37 +17,11 @@ app.use(express.static(__dirname + '/public'));
 var numUsers = 0;
 
 io.on('connection', function (socket) {
-
-  socket.receiver="brand.abanca";
-
   var addedUser = false;
 
   // when the client emits 'new message', this listens and executes
   socket.on('new message', function (data) {
-
-    Date.now = function() { return new Date().getTime(); }
-    var message = {
-      owner:socket.receiver,
-      sender:socket.username,
-      receiver:socket.receiver,
-      type:"chat",
-      lang:"en",
-      body:data,
-      unread:"0",
-      created:Date.now
-    };
-    db.query('INSERT INTO messages SET ?', message);
-    message = {
-      owner:socket.username,
-      sender:socket.username,
-      receiver:socket.receiver,
-      type:"chat",
-      lang:"en",
-      body:data,
-      unread:"1",
-      created:Date.now
-    };
-    db.query('INSERT INTO messages SET ?', message);
+    // we tell the client to execute 'new message'
     socket.broadcast.emit('new message', {
       username: socket.username,
       message: data
@@ -79,22 +32,8 @@ io.on('connection', function (socket) {
   socket.on('add user', function (username) {
     if (addedUser) return;
 
-
     // we store the username in the socket session for this client
     socket.username = username;
-
-
-    console.log('SELECT * FROM messages WHERE owner = '+socket.username);
-    db.query('SELECT * FROM messages WHERE owner = ?', [socket.username], function(err, rows, fields) {
-      if (err) throw err;
-      for (var i = 0; i < rows.length; i++) {
-        socket.emit('new message',{
-          username:rows[i].sender,
-          message: rows[i].body
-        });
-      }
-    });
-
     ++numUsers;
     addedUser = true;
     socket.emit('login', {
