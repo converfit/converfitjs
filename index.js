@@ -81,10 +81,12 @@ io.on('connection', function (socket) {
 
     // we store the username in the socket session for this client
     socket.sender = username;
-
+    console.log('SELECT * FROM messages WHERE owner = '+socket.sender);
     db.query('SELECT * FROM messages WHERE owner = ?', [socket.sender], function(err, rows, fields) {
       if (err) throw err;
-      console.log('The solution is: ', rows[0].solution);
+      for (var i = 0; i < rows.length; i++) {
+        console.log(rows[i].name);
+      };
     });
 
     ++numUsers;
