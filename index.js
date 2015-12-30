@@ -1,9 +1,27 @@
 // Setup basic express server
+var mysql = require('mysql');
+var db = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password : 'C1t10us@MySql-1',
+    database: 'node'
+})
 var express = require('express');
 var app = express();
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
 var port = process.env.PORT || 8888;
+
+// Log any errors connected to the db
+db.connect(function(err){
+    if (err) console.log(err)
+})
+
+// Define/initialize our global vars
+var notes = []
+var isInitNotes = false
+var socketCount = 0
+
 
 server.listen(port, function () {
   console.log('Server listening at port %d', port);
@@ -26,6 +44,8 @@ io.on('connection', function (socket) {
       username: socket.username,
       message: data
     });
+    var message = {username:socket.username,message:data};
+    db.query('INSERT INTO messages SET ?', message);
   });
 
   // when the client emits 'add user', this listens and executes
