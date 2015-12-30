@@ -37,6 +37,10 @@ io.on('connection', function (socket) {
     // we store the username in the socket session for this client
     socket.username = username;
 
+    console.log("Conectados OLD:");
+    for (i = 0; i < users.length; i++) {
+      console.log("["+users[i].socket+"] "+users[i].username);
+    }
 
     user.socket = socket.id;
     user.username = username;
@@ -46,6 +50,7 @@ io.on('connection', function (socket) {
     for (i = 0; i < users.length; i++) {
       console.log("["+users[i].socket+"] "+users[i].username);
     }
+
     ++numUsers;
     addedUser = true;
     socket.emit('login', {
