@@ -13,6 +13,9 @@ var server = require('http').createServer(app);
 var io = require('socket.io')(server);
 var port = process.env.PORT || 8888;
 
+
+var socket.receiver="brand.abanca";
+
 // Log any errors connected to the db
 db.connect(function(err){
     if (err) console.log(err)
