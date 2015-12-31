@@ -257,9 +257,9 @@ $(function() {
   });
 
   socket.on('users updated', function (data) {
-        $users.html("");
+        $users_list.html("");
      $.each(data, function(key, value) {
-         $users.prepend("<li><a>"+value+"</a></li>");
+         $users_list.prepend("<li><a>"+value+"</a></li>");
        });
       });
   // Whenever the server emits 'typing', show the typing message
