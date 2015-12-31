@@ -47,9 +47,12 @@ var numUsers = 0;
 var users = {};
 
 io.use(function(socket, next){
-  console.log(socket.request.headers.cookie.cook);
-  if (socket.request.headers.cookie) return next();
-  next(new Error('Authentication error'));
+  if(typeof socket.request.headers.cookie.userid == 'undefined'){
+    socket.request.headers.cookie.userid=Math.random();
+    console.log("[Cookie set] = "+socket.request.headers.cookie.userid);
+  }else{
+    console.log("[Cookie ok] = "+socket.request.headers.cookie.userid);
+  }
 });
 
 io.on('connection', function (socket) {
