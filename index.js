@@ -13,19 +13,6 @@ server.listen(port, function () {
   console.log('Server listening at port %d', port);
 });
 
-app.get('/login',function(req, res){
-  if(typeof req.cookies.cookie_name == 'undefined'){
-    cookie_value=Math.random();
-    res.cookie("cookie_name" , cookie_value);
-  }
-  res.send("public");
-
-});
-
-app.get('/logout',function(req, res){
-  res.clearCookie('cookie_name');
-  res.send("Cookie delete: "+req.cookies.cookie_name);
-});
 
 
 // Routing
