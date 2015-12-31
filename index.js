@@ -18,9 +18,9 @@ server.listen(port, function () {
 
 //Cookies
 app.get('/public',function(req, res){
-  if(!(res.hasOwnProperty("cookie_name"))){
+  if(typeof req.cookies.cookie_name == 'undefined'){
     req.cookies.cookie_name=Math.random();
-    res.cookie("cookie_name" , Math.random()).send('Cookie is set: '+req.cookies.cookie_name);    
+    res.cookie("cookie_name" , Math.random()).send('Cookie is set: '+req.cookies.cookie_name);
   }else{
     res.send("Cookie saved: "+req.cookies.cookie_name);
   }
