@@ -43,9 +43,7 @@ io.on('connection', function (socket) {
 
     ++numUsers;
     addedUser = true;
-    socket.emit('login', {
-      numUsers: numUsers
-    });
+    socket.emit('login', users);
 
     io.sockets.emit('users updated', users);
 
