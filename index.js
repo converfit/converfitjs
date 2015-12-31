@@ -16,7 +16,6 @@ app.use(express.static(__dirname + '/public'));
 
 var numUsers = 0;
 var users = [];
-var user = {};
 
 
 io.on('connection', function (socket) {
@@ -39,18 +38,7 @@ io.on('connection', function (socket) {
     socket.username = username;
 
 
-    /*console.log("Conectados OLD:");
-    for (i = 0; i < users.length; i++) {
-      console.log("["+users[i].socket+"] "+users[i].username);
-    }
-*/
-
-    users.push({id:socket.id,username:socket.username});
-
-    console.log("Conectados:");
-    for (i = 0; i < users.length; i++) {
-      console.log("["+users[i].id+"]");
-    }
+    users[socket.id]=socket.username;
 
     ++numUsers;
     addedUser = true;

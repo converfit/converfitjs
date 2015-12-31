@@ -250,8 +250,10 @@ $(function() {
 
   socket.on('users updated', function (data) {
     $users.html("");
-    for (i = 0; i < data.length; i++) {
-      $users.prepend("<li><a>"+data[i].username+"</a></li>");
+    for (key in data) {
+        if (data.hasOwnProperty(key){
+          $users.prepend("<li><a>"+data[key]+"</a></li>");
+        }
     }
   });
 
