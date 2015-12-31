@@ -40,9 +40,6 @@ io.on('connection', function (socket) {
 
     users[socket.id]=socket.username;
 
-    for (var key in users) {
-      console.log("["+key+"] "+users[key]);
-    }
 
     ++numUsers;
     addedUser = true;
@@ -54,7 +51,7 @@ io.on('connection', function (socket) {
 
     socket.broadcast.emit('user joined', {
       username: socket.username,
-      numUsers: numUsers
+      socketid: socket.id
     });
   });
 
@@ -80,7 +77,7 @@ io.on('connection', function (socket) {
       // echo globally that this client has left
       socket.broadcast.emit('user left', {
         username: socket.username,
-        numUsers: numUsers
+        socketid: socket.id
       });
     }
   });

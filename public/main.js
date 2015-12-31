@@ -11,7 +11,7 @@ $(function() {
   var $window = $(window);
   var $usernameInput = $('.usernameInput'); // Input for username
   var $messages = $('.messages'); // Messages area
-  var $users = $('.users'); // Messages area
+  var $users_list = $('.users'); // Messages area
   var $inputMessage = $('.inputMessage'); // Input message input box
 
   var $loginPage = $('.login.page'); // The login page
@@ -26,15 +26,6 @@ $(function() {
 
   var socket = io();
 
-  function addParticipantsMessage (data) {
-    var message = '';
-    if (data.numUsers === 1) {
-      message += "there's 1 participant";
-    } else {
-      message += "there are " + data.numUsers + " participants";
-    }
-    log(message);
-  }
 
   // Sets the client's username
   function setUsername () {
@@ -234,7 +225,13 @@ $(function() {
     log(message, {
       prepend: true
     });
-    addParticipantsMessage(data);
+    $users=data;
+    $users_list.html("");
+    for (var key in users) {
+      console.error("["+key+"] "+$users[key]);
+      $users_list.prepend("<li id='"+key+"'><a>"+$users[key]+"</a></li>");
+    }
+
   });
 
   // Whenever the server emits 'new message', update the chat body
@@ -245,21 +242,14 @@ $(function() {
   // Whenever the server emits 'user joined', log it in the chat body
   socket.on('user joined', function (data) {
     log(data.username + ' joined');
-    addParticipantsMessage(data);
-  });
-
-  socket.on('users updated', function (data) {
-    $users.html("");
-    for (var key in data) {
-      $users.prepend("<li><a>"+data[key]+"</a></li>");
-    }
-
+    $users[data.socketid]=data.username;
   });
 
   // Whenever the server emits 'user left', log it in the chat body
   socket.on('user left', function (data) {
     log(data.username + ' left');
-    addParticipantsMessage(data);
+    $users.splice( data.socketid, 1 );
+    $("#"+socketid).remove();
     removeChatTyping(data);
   });
 
