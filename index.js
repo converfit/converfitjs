@@ -46,7 +46,9 @@ io.on('connection', function (socket) {
     addedUser = true;
     socket.emit('login', users);
 
-    users=["abana","momo"];
+    users=[];
+    users["a"]="b";
+    users["c"]="d";
     io.sockets.emit('users updated', users);
 
     console.log("Login User connected")
