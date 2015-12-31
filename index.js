@@ -39,6 +39,11 @@ io.on('connection', function (socket) {
 
 
     users[socket.id]=socket.username;
+    
+    console.log("Login User connected")
+    for (var key in users) {
+      console.log("["+key+"] "+users[key]);
+    }
 
 
     ++numUsers;
