@@ -49,9 +49,9 @@ var users = {};
 io.set('authorization', function (handshake, callback) {
   if(typeof handshake.cookieid == 'undefined'){
     handshake.cookieid=Math.random();
-    console.log("[set cookie] ".handshake.cookieid);
+    console.log("[set cookie] "+handshake.cookieid);
   }else{
-    console.log("[get cookie] ".handshake.cookieid);
+    console.log("[get cookie] "+handshake.cookieid);
 
   }
 });
