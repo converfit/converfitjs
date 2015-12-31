@@ -251,7 +251,7 @@ $(function() {
   // Whenever the server emits 'user left', log it in the chat body
   socket.on('user left', function (data) {
     log(data.username + ' left');
-    users.splice( data.socketid, 1 );
+    users=users.splice( data.socketid, 1 );
     $("#"+socketid).remove();
     removeChatTyping(data);
   });

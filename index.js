@@ -77,7 +77,8 @@ io.on('connection', function (socket) {
     if (addedUser) {
       --numUsers;
 
-      users.splice( socket.id, 1 );
+      console.log("Socket disconnect "+socket.id);
+      users=users.splice( socket.id, 1 );
 
       // echo globally that this client has left
       socket.broadcast.emit('user left', {
