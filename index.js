@@ -21,7 +21,7 @@ app.get('/public',function(req, res){
   if(typeof req.cookies.cookie_name == 'undefined'){
     cookie_value=Math.random();
     res.cookie("cookie_name" , cookie_value);
-    res..send("public");
+    res.send("public");
   }
 });
 
