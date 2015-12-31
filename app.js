@@ -61,7 +61,17 @@ var users = {};
 io.on('connection', function (socket) {
   var addedUser = false;
 
-  console.log(socket.request.headers.cookie);
+  if(typeof socket.request.headers.cookie.cookie_value == 'undefined'){
+    socket.request.headers.cookie.cookie_value=0;
+    console.log("Cookie = "+socket.request.headers.cookie.cookie_value)
+  }else{
+    socket.request.headers.cookie.cookie_value+=1;
+    console.log("Cookie = "+socket.request.headers.cookie.cookie_value)
+    if(socket.request.headers.cookie.cookie_value==4){
+      socket.request.headers.cookie.cookie_value=0;
+    }
+  }
+
 
   // when the client emits 'new message', this listens and executes
   socket.on('new message', function (data) {
