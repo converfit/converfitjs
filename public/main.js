@@ -244,6 +244,8 @@ $(function() {
   socket.on('user joined', function (data) {
     log(data.username + ' joined');
     users[data.socketid]=data.username;
+    $users_list.prepend("<li id='"+data.socketid+"'><a>"+data.username+"</a></li>");
+
   });
 
   // Whenever the server emits 'user left', log it in the chat body
