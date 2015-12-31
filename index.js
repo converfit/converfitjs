@@ -31,7 +31,7 @@ app.get('/destroy',function(req, res){
 */
 
 app.get('/', function (req, res) {
-  res.sendFile(__dirname+'/public');
+  res.send(__dirname+'/public');
 });
 
 // Chatroom
