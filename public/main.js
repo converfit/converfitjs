@@ -225,11 +225,12 @@ $(function() {
     log(message, {
       prepend: true
     });
-    $users=data;
+    alert(data);
+    users=data;
     $users_list.html("");
-    for (var key in $users) {
-      console.error("["+key+"] "+$users[key]);
-      $users_list.prepend("<li id='"+key+"'><a>"+$users[key]+"</a></li>");
+    for (var key in users) {
+      console.error("["+key+"] "+users[key]);
+      $users_list.prepend("<li id='"+key+"'><a>"+users[key]+"</a></li>");
     }
 
   });
@@ -242,13 +243,13 @@ $(function() {
   // Whenever the server emits 'user joined', log it in the chat body
   socket.on('user joined', function (data) {
     log(data.username + ' joined');
-    $users[data.socketid]=data.username;
+    users[data.socketid]=data.username;
   });
 
   // Whenever the server emits 'user left', log it in the chat body
   socket.on('user left', function (data) {
     log(data.username + ' left');
-    $users.splice( data.socketid, 1 );
+    users.splice( data.socketid, 1 );
     $("#"+socketid).remove();
     removeChatTyping(data);
   });
