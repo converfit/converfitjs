@@ -17,7 +17,7 @@ server.listen(port, function () {
 app.use(express.static(__dirname + '/public'));
 
 //Cookies
-app.get('/cookie',function(req, res){
+app.get('/public',function(req, res){
      res.cookie(cookie_name , 'cookie_value').send('Cookie is set');
 });
 
