@@ -252,7 +252,7 @@ $(function() {
     $users.html("");
     $.each(data, function(key, value) {
       $users.prepend("<li><a>"+value+"</a></li>");
-    }
+    });
   });
 
   // Whenever the server emits 'user left', log it in the chat body
