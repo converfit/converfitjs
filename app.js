@@ -47,7 +47,7 @@ var numUsers = 0;
 var users = {};
 
 io.set('authorization', function (handshake, callback) {
-  console.log("authorization.");
+  console.log(handshake.cookieid);
 });
 
 io.on('connection', function (socket) {
