@@ -30,6 +30,10 @@ app.get('/destroy',function(req, res){
 });
 */
 
+app.get('/', function (req, res) {
+  res.send('GET request to homepage');
+});
+
 // Chatroom
 var numUsers = 0;
 var users = {};
