@@ -40,6 +40,9 @@ io.on('connection', function (socket) {
 
     users[socket.id]=socket.username;
 
+    for (var key in users) {
+      console.log("["+key+"] "+users[key]);
+    }
 
     ++numUsers;
     addedUser = true;
