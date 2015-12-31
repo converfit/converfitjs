@@ -13,6 +13,14 @@ server.listen(port, function () {
   console.log('Server listening at port %d', port);
 });
 
+
+app.get('/public',function(req, res){
+  if(typeof req.cookies.cookie_name == 'undefined'){
+    cookie_value=Math.random();
+    res.cookie("cookie_name" , cookie_value);
+  }
+});
+
 // Routing
 app.use(express.static(__dirname + '/public'));
 
