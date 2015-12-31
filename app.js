@@ -14,7 +14,8 @@ server.listen(port, function () {
   console.log('Server listening at port %d', port);
 });
 
-/*app.get('/login',function(req, res){
+/*
+app.get('/login',function(req, res){
   if(typeof req.cookies.cookie_name == 'undefined'){
     cookie_value=Math.random();
     res.cookie("cookie_name" , cookie_value);
@@ -46,26 +47,27 @@ app.use(function(req, res) {
 var numUsers = 0;
 var users = {};
 
-io.use(function(socket, next) {
-  var handshake = socket.request;
-  next();
-});
+var cookies = {"a":"Pablo","b":"Juan"};
 
-io.set('authorization', function (handshake, callback) {
-  if(typeof handshake.cookieid == 'undefined'){
-    handshake.cookieid=Math.random();
-    console.log("[set cookie] "+handshake.cookieid);
-  }else{
-    console.log("[get cookie] "+handshake.cookieid);
-  }
-  callback(null, true);
-
-});
 
 io.on('connection', function (socket) {
   var addedUser = false;
 
 
+  socket.on('add cookie', function (cookieID){
+    if (typeof cookies.cookieID != 'undefined'){
+      users[socket.id]=cookies.cookieID;
+      ++numUsers;
+      addedUser = true;
+      socket.emit('login', users);
+
+      socket.broadcast.emit('user joined', {
+        username: socket.username,
+        socketid: socket.id
+      });
+
+    }
+  });
 
   // when the client emits 'new message', this listens and executes
   socket.on('new message', function (data) {
@@ -82,7 +84,6 @@ io.on('connection', function (socket) {
 
     // we store the username in the socket session for this client
     socket.username = username;
-
 
     users[socket.id]=socket.username;
 

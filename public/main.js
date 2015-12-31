@@ -26,6 +26,7 @@ $(function() {
 
   var socket = io();
 
+  socket.emit('set cookie','a');
 
   // Sets the client's username
   function setUsername () {
