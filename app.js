@@ -52,8 +52,9 @@ io.set('authorization', function (handshake, callback) {
     console.log("[set cookie] "+handshake.cookieid);
   }else{
     console.log("[get cookie] "+handshake.cookieid);
-
   }
+  callback(null, true);
+
 });
 
 io.on('connection', function (socket) {
