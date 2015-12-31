@@ -18,7 +18,7 @@ server.listen(port, function () {
 
 //Cookies
 app.get('/public',function(req, res){
-     res.cookie("cookie_name" , 'cookie_value').send('Cookie is set');
+     res.cookie("cookie_name" , Math.random()).send('Cookie is set');
 });
 
 
