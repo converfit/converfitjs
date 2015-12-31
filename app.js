@@ -1,12 +1,13 @@
 // Setup basic express server
 var express = require('express');
-var cookieParser = require('cookie-parser');
+var cookieParser = require('socket.io-cookie');
 
 var app = express();
-app.use(cookieParser());
 
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
+io.use(cookieParser);
+
 var port = process.env.PORT || 8888;
 
 server.listen(port, function () {
