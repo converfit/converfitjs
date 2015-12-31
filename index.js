@@ -15,7 +15,7 @@ app.use(express.static(__dirname + '/public'));
 // Chatroom
 
 var numUsers = 0;
-var users = [];
+var users = {};
 
 
 io.on('connection', function (socket) {
@@ -46,15 +46,7 @@ io.on('connection', function (socket) {
     addedUser = true;
     socket.emit('login', users);
 
-    users=[];
-    users["a"]="b";
-    users["c"]="d";
-    io.sockets.emit('users updated', users);
-
-    console.log("Login User connected")
-    for (var key in users) {
-      console.log("["+key+"] "+users[key]);
-    }
+    io.sockets.emit('users updated', users_array);
 
     socket.broadcast.emit('user joined', {
       username: socket.username,
@@ -82,8 +74,8 @@ io.on('connection', function (socket) {
       --numUsers;
 
       console.log("Socket disconnect "+socket.id);
-      users=users.splice( socket.id, 1 );
 
+      delete users[socket.id]
       // echo globally that this client has left
       socket.broadcast.emit('user left', {
         username: socket.username,

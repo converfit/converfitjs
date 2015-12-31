@@ -18,6 +18,7 @@ $(function() {
   var $chatPage = $('.chat.page'); // The chatroom page
 
   // Prompt for setting a username
+  var users={};
   var username;
   var connected = false;
   var typing = false;
@@ -227,7 +228,7 @@ $(function() {
     });
     users=data;
     $users_list.html("");
-    $.each(data, function(key, value) {
+    for (var key in users) {
       console.error("["+key+"] "+users[key]);
       $users_list.prepend("<li id='"+key+"'><a>"+users[key]+"</a></li>");
     });
@@ -251,19 +252,13 @@ $(function() {
   // Whenever the server emits 'user left', log it in the chat body
   socket.on('user left', function (data) {
     log(data.username + ' left');
-    users=users.splice( data.socketid, 1 );
+
+    delete users[data.socketid];
+
     $("#"+socketid).remove();
     removeChatTyping(data);
   });
 
-  socket.on('users updated', function (data) {
-    alert(data);
-    console.error("users updated");
-      $users_list.html("");
-     $.each(data, function(key, value) {
-         $users_list.prepend("<li><a>"+value+"</a></li>");
-       });
-      });
   // Whenever the server emits 'typing', show the typing message
   socket.on('typing', function (data) {
     addChatTyping(data);
