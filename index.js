@@ -41,11 +41,17 @@ io.on('connection', function (socket) {
     users[socket.id]=socket.username;
 
 
+
     ++numUsers;
     addedUser = true;
     socket.emit('login', users);
 
     io.sockets.emit('users updated', users);
+
+    console.log("Login User connected")
+    for (var key in users) {
+      console.log("["+key+"] "+users[key]);
+    }
 
     socket.broadcast.emit('user joined', {
       username: socket.username,
