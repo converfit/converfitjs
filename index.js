@@ -1,6 +1,10 @@
 // Setup basic express server
 var express = require('express');
+var cookieParser = require('cookie-parser');
+
 var app = express();
+app.use(cookieParser());
+
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
 var port = process.env.PORT || 8888;
@@ -11,9 +15,14 @@ server.listen(port, function () {
 
 // Routing
 app.use(express.static(__dirname + '/public'));
-app.use(express.cookieParser());
-// Chatroom
 
+//Cookies
+app.get('/cookie',function(req, res){
+     res.cookie(cookie_name , 'cookie_value').send('Cookie is set');
+});
+
+
+// Chatroom
 var numUsers = 0;
 var users = {};
 
