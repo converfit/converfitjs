@@ -14,7 +14,7 @@ server.listen(port, function () {
 });
 
 // Routing
-//app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/public'));
 
 //Cookies
 /*app.get('/public',function(req, res){
@@ -29,10 +29,6 @@ app.get('/destroy',function(req, res){
   res.send("Cookie delete: "+req.cookies.cookie_name);
 });
 */
-
-app.get('/', function (req, res) {
-  res.sendFile('/public');
-});
 
 // Chatroom
 var numUsers = 0;
