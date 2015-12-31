@@ -225,15 +225,15 @@ $(function() {
     log(message, {
       prepend: true
     });
-    alert(data);
     users=data;
     $users_list.html("");
-    for (var key in users) {
+    $.each(data, function(key, value) {
       console.error("["+key+"] "+users[key]);
       $users_list.prepend("<li id='"+key+"'><a>"+users[key]+"</a></li>");
-    }
+    });
 
   });
+
 
   // Whenever the server emits 'new message', update the chat body
   socket.on('new message', function (data) {
