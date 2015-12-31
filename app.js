@@ -63,7 +63,7 @@ io.on('connection', function (socket) {
 
   if(typeof socket.request.headers.cookie.cookie_value == 'undefined'){
     socket.request.headers.cookie.cookie_value=0;
-    console.log("Cookie = "+socket.request.headers.cookie.cookie_value)
+    console.log("Cookie Undef = "+socket.request.headers.cookie.cookie_value)
   }else{
     socket.request.headers.cookie.cookie_value+=1;
     console.log("Cookie = "+socket.request.headers.cookie.cookie_value)
