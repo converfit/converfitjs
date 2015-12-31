@@ -13,10 +13,37 @@ server.listen(port, function () {
   console.log('Server listening at port %d', port);
 });
 
+app.get('/login',function(req, res){
+  if(typeof req.cookies.cookie_name == 'undefined'){
+    cookie_value=Math.random();
+    res.cookie("cookie_name" , cookie_value);
+  }
+  res.send("public");
+
+});
+
+app.get('/logout',function(req, res){
+  res.clearCookie('cookie_name');
+  res.send("Cookie delete: "+req.cookies.cookie_name);
+});
 
 
 // Routing
-app.use("/",express.static(__dirname + '/public'));
+//app.use("/",express.static(__dirname + '/public'));
+
+function handler (req, res) {
+  fs.readFile(__dirname + '/index.html',
+  function (err, data) {
+    if (err) {
+      res.writeHead(500);
+      return res.end('Error loading index.html');
+    }
+
+    res.writeHead(200);
+    res.end(data);
+  });
+}
+
 
 //Cookies
 
