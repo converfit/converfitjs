@@ -231,7 +231,7 @@ $(function() {
     for (var key in users) {
       console.error("["+key+"] "+users[key]);
       $users_list.prepend("<li id='"+key+"'><a>"+users[key]+"</a></li>");
-    });
+    }
 
   });
 
