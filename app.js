@@ -33,22 +33,10 @@ app.get('/logout',function(req, res){
 app.use("/",express.static(__dirname + '/public'));
 
 app.use(function(req, res) {
-    res.send(404, 'Page not found');
+    res.status(404).send('Page not found');
 });
 
 
-function handler (req, res) {
-  fs.readFile(__dirname + '/public/index.html',
-  function (err, data) {
-    if (err) {
-      res.writeHead(500);
-      return res.end('Error loading index.html');
-    }
-
-    res.writeHead(200);
-    res.end(data);
-  });
-}
 
 
 //Cookies
@@ -57,20 +45,14 @@ function handler (req, res) {
 var numUsers = 0;
 var users = {};
 
+io.use(function(socket, next){
+    if (socket.request.headers.cookie) return next();
+    next(new Error('Authentication error'));
+  });
 
 io.on('connection', function (socket) {
   var addedUser = false;
 
-  if(socket.request.headers.cookie.cookie_value == 'undefined'){
-    socket.request.headers.cookie.cookie_value=0;
-    console.log("Cookie Undef = "+socket.request.headers.cookie.cookie_value)
-  }else{
-    socket.request.headers.cookie.cookie_value+=1;
-    console.log("Cookie = "+socket.request.headers.cookie.cookie_value)
-    if(socket.request.headers.cookie.cookie_value==4){
-      socket.request.headers.cookie.cookie_value=0;
-    }
-  }
 
 
   // when the client emits 'new message', this listens and executes
