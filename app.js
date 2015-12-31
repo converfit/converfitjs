@@ -46,6 +46,11 @@ app.use(function(req, res) {
 var numUsers = 0;
 var users = {};
 
+io.use(function(socket, next) {
+  var handshake = socket.request;
+  next();
+});
+
 io.set('authorization', function (handshake, callback) {
   if(typeof handshake.cookieid == 'undefined'){
     handshake.cookieid=Math.random();
