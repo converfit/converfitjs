@@ -18,7 +18,13 @@ server.listen(port, function () {
 
 //Cookies
 app.get('/public',function(req, res){
-     res.cookie("cookie_name" , Math.random()).send('Cookie is set');
+  if(!(res.hasOwnProperty("cookie_name"))){
+    req.cookies.cookie_name=Math.random();
+    res.cookie("cookie_name" , Math.random()).send('Cookie is set: '+req.cookies.cookie_name);    
+  }else{
+    res.send("Cookie saved: "+req.cookies.cookie_name);
+  }
+
 });
 
 
