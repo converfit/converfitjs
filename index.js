@@ -13,10 +13,6 @@ server.listen(port, function () {
   console.log('Server listening at port %d', port);
 });
 
-// Routing
-app.use("/",express.static(__dirname + '/public'));
-
-//Cookies
 app.get('/login',function(req, res){
   if(typeof req.cookies.cookie_name == 'undefined'){
     cookie_value=Math.random();
@@ -30,6 +26,12 @@ app.get('/logout',function(req, res){
   res.clearCookie('cookie_name');
   res.send("Cookie delete: "+req.cookies.cookie_name);
 });
+
+
+// Routing
+app.use("/",express.static(__dirname + '/public'));
+
+//Cookies
 
 // Chatroom
 var numUsers = 0;
