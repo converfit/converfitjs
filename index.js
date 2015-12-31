@@ -19,8 +19,9 @@ server.listen(port, function () {
 //Cookies
 app.get('/public',function(req, res){
   if(typeof req.cookies.cookie_name == 'undefined'){
-    req.cookies.cookie_name=Math.random();
-    res.cookie("cookie_name" , Math.random()).send('Cookie is set: '+req.cookies.cookie_name);
+    cookie_value=Math.random();
+    res.cookie("cookie_name" , cookie_value);
+    res.send('Cookie is set:'+cookie_value);
   }else{
     res.send("Cookie saved: "+req.cookies.cookie_name);
   }
@@ -28,7 +29,7 @@ app.get('/public',function(req, res){
 });
 
 app.get('/destroy',function(req, res){
-  delete req.cookies.cookie_name;
+  res.clearCookie('cookie_name');
   res.send("Cookie delete: "+req.cookies.cookie_name);
 
 });
