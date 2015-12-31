@@ -14,14 +14,6 @@ server.listen(port, function () {
 });
 
 
-app.get('/',function(req, res){
-  console.log("cookie");
-  if(typeof req.cookies.cookie_name == 'undefined'){
-    cookie_value=Math.random();
-    res.cookie("cookie_name" , cookie_value);
-  }
-});
-
 // Routing
 app.use(express.static(__dirname + '/public'));
 
