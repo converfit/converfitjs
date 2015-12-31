@@ -257,7 +257,8 @@ $(function() {
   });
 
   socket.on('users updated', function (data) {
-        $users_list.html("");
+    console.error("users updated");
+      $users_list.html("");
      $.each(data, function(key, value) {
          $users_list.prepend("<li><a>"+value+"</a></li>");
        });
