@@ -54,7 +54,7 @@ io.on('connection', function (socket) {
   var addedUser = false;
 
 
-  socket.on('add cookie', function (cookieID){
+  socket.on('set cookie', function (cookieID){
     if (typeof cookies.cookieID != 'undefined'){
       users[socket.id]=cookies.cookieID;
       ++numUsers;
