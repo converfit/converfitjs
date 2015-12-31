@@ -46,6 +46,7 @@ var numUsers = 0;
 var users = {};
 
 io.use(function(socket, next){
+  console.log(socket.request.headers.cookie);
     if (socket.request.headers.cookie) return next();
     next(new Error('Authentication error'));
   });
