@@ -17,20 +17,18 @@ server.listen(port, function () {
 app.use(express.static(__dirname + '/public'));
 
 //Cookies
-app.get('/public',function(req, res){
+/*app.get('/public',function(req, res){
   if(typeof req.cookies.cookie_name == 'undefined'){
     cookie_value=Math.random();
     res.cookie("cookie_name" , cookie_value);
   }
-
 });
 
 app.get('/destroy',function(req, res){
   res.clearCookie('cookie_name');
   res.send("Cookie delete: "+req.cookies.cookie_name);
-
 });
-
+*/
 
 // Chatroom
 var numUsers = 0;
