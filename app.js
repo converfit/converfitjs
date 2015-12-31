@@ -61,7 +61,7 @@ var users = {};
 io.on('connection', function (socket) {
   var addedUser = false;
 
-  if(typeof socket.request.headers.cookie.cookie_value == 'undefined'){
+  if(socket.request.headers.cookie.cookie_value == 'undefined'){
     socket.request.headers.cookie.cookie_value=0;
     console.log("Cookie Undef = "+socket.request.headers.cookie.cookie_value)
   }else{
