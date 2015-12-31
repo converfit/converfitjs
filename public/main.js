@@ -255,7 +255,7 @@ $(function() {
 
     delete users[data.socketid];
 
-    $("#"+socketid).remove();
+    $("#"+data.socketid).remove();
     removeChatTyping(data);
   });
 
