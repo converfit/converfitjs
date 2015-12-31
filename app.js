@@ -61,7 +61,7 @@ var users = {};
 io.on('connection', function (socket) {
   var addedUser = false;
 
-  console.log(request.headers.cookie);
+  console.log(socket.request.headers.cookie);
 
   // when the client emits 'new message', this listens and executes
   socket.on('new message', function (data) {
