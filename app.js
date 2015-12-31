@@ -14,8 +14,10 @@ server.listen(port, function () {
 });
 
 // Routing
-app.use("/",express.static(__dirname + '/public'));
-
+app.use(express.static(__dirname + '/public'));
+app.use(function(req, res) {
+    res.send(404, 'Page not found');
+});
 
 
 //Cookies
