@@ -47,7 +47,13 @@ var numUsers = 0;
 var users = {};
 
 io.set('authorization', function (handshake, callback) {
-  console.log(handshake.cookieid);
+  if(typeof handshake.cookieid == 'undefined'){
+    handshake.cookieid=Math.random();
+    console.log("[set cookie] ".handshake.cookieid);
+  }else{
+    console.log("[get cookie] ".handshake.cookieid);
+
+  }
 });
 
 io.on('connection', function (socket) {
