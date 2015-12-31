@@ -256,6 +256,12 @@ $(function() {
     removeChatTyping(data);
   });
 
+  socket.on('users updated', function (data) {
+        $users.html("");
+     $.each(data, function(key, value) {
+         $users.prepend("<li><a>"+value+"</a></li>");
+       });
+      });
   // Whenever the server emits 'typing', show the typing message
   socket.on('typing', function (data) {
     addChatTyping(data);
