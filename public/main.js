@@ -251,7 +251,7 @@ $(function() {
   socket.on('users updated', function (data) {
     $users.html("");
     for (key in data) {
-        if (data.hasOwnProperty(key){
+        if (data.hasOwnProperty(key)){
           $users.prepend("<li><a>"+data[key]+"</a></li>");
         }
     }
