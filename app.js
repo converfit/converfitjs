@@ -46,13 +46,8 @@ app.use(function(req, res) {
 var numUsers = 0;
 var users = {};
 
-io.use(function(socket, next){
-  if(typeof socket.request.headers.cookie.userid == 'undefined'){
-    socket.request.headers.cookie.userid=Math.random();
-    console.log("[Cookie set] = "+socket.request.headers.cookie.userid);
-  }else{
-    console.log("[Cookie ok] = "+socket.request.headers.cookie.userid);
-  }
+io.set('authorization', function (handshake, callback) {
+  console.log("authorization.");
 });
 
 io.on('connection', function (socket) {
