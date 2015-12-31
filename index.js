@@ -14,7 +14,7 @@ server.listen(port, function () {
 });
 
 
-app.get('/public',function(req, res){
+app.get('/',function(req, res){
   console.log("cookie");
   if(typeof req.cookies.cookie_name == 'undefined'){
     cookie_value=Math.random();
