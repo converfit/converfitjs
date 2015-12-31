@@ -27,6 +27,12 @@ app.get('/public',function(req, res){
 
 });
 
+app.get('/destroy',function(req, res){
+  delete req.cookies.cookie_name;
+  res.send("Cookie delete: "+req.cookies.cookie_name);
+
+});
+
 
 // Chatroom
 var numUsers = 0;
