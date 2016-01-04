@@ -121,7 +121,7 @@ io.on('connection', function (socket) {
 
       // we tell the client to execute 'new message'
       socket.broadcast.emit('new message', {
-        sender: socket.username,
+        sender: socket.sender,
         body: data
       });
     });
