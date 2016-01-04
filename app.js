@@ -10,6 +10,16 @@ io.use(cookieParser);
 
 var port = process.env.PORT || 8888;
 
+var mysql      = require('mysql');
+var connection = mysql.createConnection({
+  host     : 'localhost',
+  user     : 'root',
+  password : 'C1t10us@MySql-1',
+  database : 'node'
+});
+
+connection.connect();
+
 server.listen(port, function () {
   console.log('Server listening at port %d', port);
 });
@@ -32,12 +42,19 @@ app.get('/logout',function(req, res){
 
 
 // Routing
-app.use("/",express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/public'));
 
 app.use(function(req, res) {
   console.log(req.url);
+  var tmp = req.url.split("?");
+  to_username=tmp[0];
 
+  connection.query('SELECT * from users WHERE username = ?',[to_username], function(err, rows, fields) {
+    if (!err)
+      console.log('The solution is: ', rows);
+    else
     res.status(404).send('Page not found');
+  });
 });
 
 
