@@ -1,5 +1,6 @@
 // Setup basic express server
 var express = require('express');
+var timestamp = require('timestamp')
 
 var app = express();
 
@@ -9,80 +10,39 @@ var io = require('socket.io')(server);
 var port = process.env.PORT || 8888;
 
 var mysql      = require('mysql');
-var connection = mysql.createConnection({
+var db = mysql.createConnection({
   host     : 'localhost',
   user     : 'root',
   password : 'C1t10us@MySql-1',
   database : 'node'
 });
 
-connection.connect();
+db.connect();
 
 server.listen(port, function () {
   console.log('Server listening at port %d', port);
 });
 
 
+
+// Routing
+
 app.use(express.static(__dirname + '/public'));
 
 app.get("/user/*",function(req, res){
   var queryString = 'SELECT * FROM users WHERE username=?';
   console.log("SELECT * FROM users WHERE username="+req.url);
-  connection.query(queryString, req.url,function(err, rows, fields) {
+  db.query(queryString, req.url,function(err, rows, fields) {
       if (err) throw err;
       if (rows==0){
         res.sendFile(__dirname + '/404/index.html');
       }else{
+        socket.to=req.url;
         res.sendFile(__dirname + '/public/index.html');
       }
   });
 
 });
-
-/*
-app.get('/login',function(req, res){
-  if(typeof req.cookies.cookie_name == 'undefined'){
-    cookie_value=Math.random();
-    res.cookie("cookie_name" , cookie_value);
-  }
-  res.send("public");
-
-});
-
-app.get('/logout',function(req, res){
-  res.clearCookie('cookie_name');
-  res.send("Cookie delete: "+req.cookies.cookie_name);
-});
-*/
-
-
-// Routing
-
-
-//app.use(express.static(__dirname + '/public'));
-
-/*
-app.use(function(req, res) {
-  var tmp = req.url.split("?");
-  to_username=tmp[0].replace("/","");
-  console.log(to_username);
-
-  var queryString = 'SELECT * FROM users WHERE username=?';
-
-  connection.query(queryString, to_username,function(err, rows, fields) {
-      if (err) throw err;
-      if (rows==0){
-        console.log("No brand");
-      }else{
-        express.static(__dirname + '/public')
-      }
-  });
-});
-*/
-
-
-
-//Cookies
 
 // Chatroom
 var numUsers = 0;
@@ -109,6 +69,20 @@ io.on('connection', function (socket) {
 
   // when the client emits 'new message', this listens and executes
   socket.on('new message', function (data) {
+
+    var message = {
+      owner: socket.username,
+      sender: socket.username,
+      receiver: socket.to,
+      body: data,
+      unread: 0,
+      created: timestamp()
+    };
+
+    db.query('INSERT INTO messages SET ?', message, function(err,res){
+      if(err) throw err;
+    });
+
     // we tell the client to execute 'new message'
     socket.broadcast.emit('new message', {
       username: socket.username,
