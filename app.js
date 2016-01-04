@@ -108,7 +108,6 @@ io.on('connection', function (socket) {
       });
     });
 
-    // when the client emits 'new message', this listens and executes
     socket.on('new message', function (data) {
 
       var message ={
@@ -150,30 +149,17 @@ io.on('connection', function (socket) {
       });
     });
 
-    // when the client emits 'add user', this listens and executes
-    socket.on('add user', function (username) {
-      if (addedUser) return;
-
-      // we store the username in the socket session for this client
-      socket.username = username;
-
-
-      addedUser = true;
-      socket.emit('login');
-
-    });
-
     // when the client emits 'typing', we broadcast it to others
     socket.on('typing', function () {
       socket.broadcast.emit('typing', {
-        username: socket.username
+        sender: socket.sender
       });
     });
 
     // when the client emits 'stop typing', we broadcast it to others
     socket.on('stop typing', function () {
       socket.broadcast.emit('stop typing', {
-        username: socket.username
+        sender: socket.sender
       });
     });
 
