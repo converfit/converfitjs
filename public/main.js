@@ -27,7 +27,10 @@ $(function() {
   var socket = io();
 
   if (typeof localStorage["cookie"] == 'undefined'){
+    alert("set cookie");
     localStorage["cookie"]="cookie";
+  }else{
+    alert("get cookie");
   }
 
   // Sets the client's username
