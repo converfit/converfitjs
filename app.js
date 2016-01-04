@@ -165,10 +165,7 @@ io.on('connection', function (socket) {
       addedUser = true;
       socket.emit('login', users);
 
-      socket.broadcast.emit('user joined', {
-        username: socket.username,
-        socketid: socket.id
-      });
+
     });
 
     // when the client emits 'typing', we broadcast it to others
