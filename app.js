@@ -21,6 +21,7 @@ db.connect();
 
 server.listen(port, function () {
   console.log('Server listening at port %d', port);
+  console.log(timestamp());
 });
 
 //
@@ -90,10 +91,22 @@ io.on('connection', function (socket) {
     };
 
     db.query('INSERT INTO messages SET ?', message, function(err,res){
-    if(err) throw err;
+      if(err) throw err;
+    });
 
-    console.log('Last insert ID:', res.insertId);
-  });
+    var message ={
+      owner:socket.receiver,
+      sender:socket.sender,
+      receiver:socket.receiver,
+      type:"chat",
+      body:data,
+      unread:"1",
+      created:timestamp()
+    };
+
+    db.query('INSERT INTO messages SET ?', message, function(err,res){
+      if(err) throw err;
+    });
 
 
     // we tell the client to execute 'new message'
