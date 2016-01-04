@@ -25,7 +25,7 @@ server.listen(port, function () {
 
 app.use(express.static(__dirname + '/public'));
 
-app.get("/abanca/",function(req, res){
+app.get("/*",function(req, res){
   console.log("inside get");
   res.sendFile(__dirname + '/public/index.html');
 });
