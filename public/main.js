@@ -231,6 +231,7 @@ $(function() {
 
   socket.on('login error', function (data) {
     localStorage.removeItem(username);
+    username=false;
   });
 
 
