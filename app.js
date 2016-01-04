@@ -45,7 +45,7 @@ app.get('/logout',function(req, res){
 
 
 app.use('/',function(req,res){
-  express.static(__dirname + '/public')
+  express.static(__dirname + '/public');
 });
 /*
 app.get('/:username/', function(req, res){
