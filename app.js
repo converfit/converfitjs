@@ -1,6 +1,5 @@
 // Setup basic express server
 var express = require('express');
-var timestamp = require('timestamp')
 
 var app = express();
 
@@ -72,9 +71,9 @@ io.on('connection', function (socket) {
         if (rows==0){
           socket.emit('login error');
         }else{
-          var queryString = 'SELECT * FROM messages WHERE owner=? and (sender=? or receiver=?)';
-          var queryData = [socket.sender,socket.receiver,socket.receiver];
-          db.query(queryString, queryData,function(err, rows, fields) {
+          var queryString = 'SELECT * FROM messages WHERE owner='+socket.sender+' and (sender='+socket.receiver+' or receiver='+socket.receiver+')';
+          console.log(queryString);
+          db.query(queryString,function(err, rows, fields) {
               if (err) throw err;
               if (rows==0){
                 console.log("Conversation Empty");
