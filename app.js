@@ -24,7 +24,7 @@ server.listen(port, function () {
 });
 
 //
-var receiver="";
+var receiver={};
 
 // Routing
 
@@ -37,12 +37,11 @@ app.get("/user/*",function(req, res){
       if (rows==0){
         res.sendFile(__dirname + '/404/index.html');
       }else{
-        receiver=req.url;
-        console.log(receiver);
+        receiver.username=req.url;
+        console.log(rows[0]);
         res.sendFile(__dirname + '/public/index.html');
       }
   });
-
 });
 
 // Chatroom
@@ -52,7 +51,9 @@ var users = {};
 
 io.on('connection', function (socket) {
   var addedUser = false;
-  socket.receiver=receiver;
+  socket.receiver=receiver.username;
+
+  socket.emit('login', function (username){
 
   socket.on('login', function (username){
 
