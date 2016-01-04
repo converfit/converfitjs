@@ -56,6 +56,8 @@ io.on('connection', function (socket) {
 
   socket.on('login', function (username){
 
+    socket.sender = username;
+
     console.log("[Login] "+username);
     users[socket.id]=username;
     ++numUsers;
