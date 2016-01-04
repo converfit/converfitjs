@@ -137,7 +137,7 @@ io.on('connection', function (socket) {
         if(err) throw err;
       });
 
-      var queryString = 'SELECT * FROM sockets WHERE sender="'+socket.receiver+'" and receiver="'+socket.sender+'"';
+      var queryString = 'SELECT * FROM sockets WHERE (sender="'+socket.receiver+'" and receiver="'+socket.sender+'") or (sender="'+socket.sender+'" and receiver="'+socket.receiver+'" and socketid<>"'+socket.id+'")';
       console.log("[MySQL] "+queryString);
       db.query(queryString,function(err, rows, fields) {
           if (err) throw err;
