@@ -12,8 +12,9 @@ $(function() {
   var $header = $('.header');
   var $usernameInput = $('.usernameInput'); // Input for username
   var $passwordInput = $('.passwordInput'); // Input for username
-  var $messages = $('.messages'); // Messages area
-  var $users_list = $('.users'); // Messages area
+
+  var $conversation = $('#conversation'); // Messages area
+
   var $inputMessage = $('.inputMessage'); // Input message input box
 
   var $loginPage = $('.login.page'); // The login page
@@ -127,7 +128,9 @@ $(function() {
     } else {
       $messages.append($el);
     }
-    $messages[0].scrollTop = $messages[0].scrollHeight;
+    $conversation.append(message);
+
+    $conversation[0].scrollTop = $conversation[0].scrollHeight;
   }
 
   // Prevents input from having injected markup
