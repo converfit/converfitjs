@@ -22,6 +22,13 @@ server.listen(port, function () {
   console.log('Server listening at port %d', port);
 });
 
+var queryString = 'DELETE FROM sockets WHERE 1';
+console.log("[MySQL] "+queryString);
+db.query(queryString,function(err) {
+    if (err) throw err;
+});
+
+
 //
 var receiver={};
 
