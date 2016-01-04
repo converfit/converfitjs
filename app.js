@@ -10,14 +10,14 @@ var io = require('socket.io')(server);
 var port = process.env.PORT || 8888;
 
 var mysql      = require('mysql');
-var connection = mysql.createConnection({
+var db = mysql.createConnection({
   host     : 'localhost',
   user     : 'root',
   password : 'C1t10us@MySql-1',
   database : 'node'
 });
 
-connection.connect();
+db.connect();
 
 server.listen(port, function () {
   console.log('Server listening at port %d', port);
@@ -72,15 +72,17 @@ io.on('connection', function (socket) {
 
     var message = {
       owner: socket.username,
-      sender: socket.username,
-      receiver: socket.to,
+      from: socket.username,
+      to: socket.to,
       body: data,
       unread: 0,
       created: timestamp()
     };
 
-    connection.query('INSERT INTO messages SET ?', message, function(err,res){
+    con.query('INSERT INTO employees SET ?', employee, function(err,res){
       if(err) throw err;
+
+      console.log('Last insert ID:', res.insertId);
     });
 
     // we tell the client to execute 'new message'
