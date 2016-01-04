@@ -87,9 +87,8 @@ $(function() {
 
   // Adds the visual chat typing message
   function addChatTyping (data) {
-    console.error("[function] addChatTyping");
     data.typing = true;
-    data.message = 'is typing';
+    data.body = 'is typing';
     addChatMessage(data);
   }
 
@@ -138,7 +137,6 @@ $(function() {
 
   // Updates the typing event
   function updateTyping () {
-    console.error("[function] updateTyping");
     if (connected) {
       if (!typing) {
         typing = true;
