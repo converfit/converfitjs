@@ -23,8 +23,7 @@ server.listen(port, function () {
 });
 
 
-app.use(bodyParser.urlencoded({ extended: false } ));
-app.use(express.static('static'));
+app.use(express.static('public'));
 
 app.get('/', function(req, res){
   res.sendFile(__dirname + '/public/index.html');
