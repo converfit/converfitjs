@@ -121,7 +121,7 @@ io.on('connection', function (socket) {
       });
 
 
-      socket.to(ocketids[socket.receiver+"::"+socket.sender]).emit('new message',  {
+      socket.to(socketids[socket.receiver+"::"+socket.sender]).emit('new message',  {
         sender: socket.sender,
         body: data
       });
