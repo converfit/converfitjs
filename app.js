@@ -55,10 +55,8 @@ app.use(function(req, res) {
       if (err) throw err;
       if (rows==0){
         console.log("No brand");
-      }
-
-      for (var i in rows) {
-          console.log('Post Titles: ', rows[i].username);
+      }else{
+        express.static(__dirname + '/public')
       }
   });
 });
