@@ -36,7 +36,7 @@ app.get("/user/*",function(req, res){
       if (rows==0){
         res.sendFile(__dirname + '/404/index.html');
       }else{
-        socket.to=req.url;
+        receiver_username=req.url;
         res.sendFile(__dirname + '/public/index.html');
       }
   });
