@@ -32,9 +32,7 @@ $(function() {
     login(localStorage["username"]);
   }
 
-  // Sets the client's username
   function login (data) {
-    console.error("login");
     username="/user/"+data;
     socket.emit('login',username);
   }
@@ -64,7 +62,6 @@ $(function() {
 
   // Adds the visual chat message to the message list
   function addChatMessage (data, options) {
-    console.error(data.sender+" "+data.body);
     // Don't fade the message in if there is an 'X was typing'
     var $typingMessages = getTypingMessages(data);
     options = options || {};
@@ -90,6 +87,7 @@ $(function() {
 
   // Adds the visual chat typing message
   function addChatTyping (data) {
+    console.error("[function] addChatTyping");
     data.typing = true;
     data.message = 'is typing';
     addChatMessage(data);
@@ -140,6 +138,7 @@ $(function() {
 
   // Updates the typing event
   function updateTyping () {
+    console.error("[function] updateTyping");
     if (connected) {
       if (!typing) {
         typing = true;
@@ -242,16 +241,13 @@ $(function() {
 
   socket.on('messages backup',function (data){
     $.each(data, function(index, message){
-      console.log("INDEX: " + index + " VALUE: " + message);
       addChatMessage(message);
-
     });
   });
 
 
   // Whenever the server emits 'new message', update the chat body
   socket.on('new message', function (data) {
-    console.error(data.sender);
     addChatMessage(data);
   });
 

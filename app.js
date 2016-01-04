@@ -157,14 +157,9 @@ io.on('connection', function (socket) {
       // we store the username in the socket session for this client
       socket.username = username;
 
-      users[socket.id]=socket.username;
 
-
-
-      ++numUsers;
       addedUser = true;
-      socket.emit('login', users);
-
+      socket.emit('login');
 
     });
 
