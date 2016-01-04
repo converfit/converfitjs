@@ -31,14 +31,13 @@ var receiver={};
 app.use(express.static(__dirname + '/public'));
 
 app.get("/user/*",function(req, res){
-  var queryString = 'SELECT * FROM users WHERE username=?';
+  var queryString = 'SELECT id FROM users WHERE username=?';
   db.query(queryString, req.url,function(err, rows, fields) {
       if (err) throw err;
       if (rows==0){
         res.sendFile(__dirname + '/404/index.html');
       }else{
         receiver.username=req.url;
-        console.log(rows[0]);
         res.sendFile(__dirname + '/public/index.html');
       }
   });
@@ -73,6 +72,16 @@ io.on('connection', function (socket) {
         if (rows==0){
           socket.emit('login error');
         }else{
+          var queryString = 'SELECT * FROM messages WHERE owner=? and (sender=? or receiver=?)';
+          var queryData = [socket.sender,socket.receiver,socket.receiver];
+          db.query(queryString, queryData,function(err, rows, fields) {
+              if (err) throw err;
+              if (rows==0){
+                console.log("Conversation Empty");
+              }else{
+                console.log("Conversation not Empty");
+              }
+          });
           socket.sender = username;
           users[socket.id]=username;
           ++numUsers;
