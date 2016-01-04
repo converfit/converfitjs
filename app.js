@@ -10,14 +10,14 @@ var io = require('socket.io')(server);
 var port = process.env.PORT || 8888;
 
 var mysql      = require('mysql');
-var connection = mysql.createConnection({
+var db = mysql.createdb({
   host     : 'localhost',
   user     : 'root',
   password : 'C1t10us@MySql-1',
   database : 'node'
 });
 
-connection.connect();
+db.connect();
 
 server.listen(port, function () {
   console.log('Server listening at port %d', port);
@@ -33,7 +33,7 @@ app.use(express.static(__dirname + '/public'));
 app.get("/user/*",function(req, res){
   var queryString = 'SELECT * FROM users WHERE username=?';
   console.log("SELECT * FROM users WHERE username="+req.url);
-  connection.query(queryString, req.url,function(err, rows, fields) {
+  db.query(queryString, req.url,function(err, rows, fields) {
       if (err) throw err;
       if (rows==0){
         res.sendFile(__dirname + '/404/index.html');
@@ -50,7 +50,7 @@ var numUsers = 0;
 var users = {};
 
 
-io.on('connection', function (socket) {
+io.on('db', function (socket) {
   var addedUser = false;
   socket.receiver=receiver;
 
@@ -81,7 +81,7 @@ io.on('connection', function (socket) {
       created:timestamp()
     };
 
-    con.query('INSERT INTO messages SET ?', message, function(err,res){
+    db.query('INSERT INTO messages SET ?', message, function(err,res){
     if(err) throw err;
 
     console.log('Last insert ID:', res.insertId);
