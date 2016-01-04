@@ -45,9 +45,9 @@ app.get('/logout',function(req, res){
 app.use(express.static(__dirname + '/public'));
 
 app.use(function(req, res) {
-  console.log(req.url);
   var tmp = req.url.split("?");
   to_username=tmp[0];
+  console.log(to_username);
 
   connection.query('SELECT * from users WHERE username = ?',[to_username], function(err, rows, fields) {
     if (!err)
