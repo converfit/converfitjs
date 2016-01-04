@@ -34,7 +34,8 @@ app.get('/logout',function(req, res){
 // Routing
 app.use("/",express.static(__dirname + '/public'));
 
-app.use(function(req, res) {
+app.use(path,function(req, res) {
+  console.log(path);
   console.log(req);
   console.log(res);
 
