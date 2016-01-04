@@ -25,7 +25,7 @@ server.listen(port, function () {
 
 app.use(express.static(__dirname + '/public'));
 
-app.get("/b/*",function(req, res){
+app.get("/user/*",function(req, res){
   var queryString = 'SELECT * FROM users WHERE username=?';
   console.log("SELECT * FROM users WHERE username="+req.url);
   connection.query(queryString, req.url,function(err, rows, fields) {
@@ -33,11 +33,10 @@ app.get("/b/*",function(req, res){
       if (rows==0){
         console.log("No brand");
       }else{
-        express.static(__dirname + '/public')
+        res.sendFile(__dirname + '/public/index.html');
       }
   });
 
-  res.sendFile(__dirname + '/public/index.html');
 });
 
 /*
