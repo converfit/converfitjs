@@ -25,7 +25,7 @@ server.listen(port, function () {
 
 //app.use(express.static(__dirname + '/public'));
 
-app.get("/*",function(req, res){
+app.get("/b/*",function(req, res){
   var queryString = 'SELECT * FROM users WHERE username=?';
   console.log("SELECT * FROM users WHERE username="+req.url);
   connection.query(queryString, req.url,function(err, rows, fields) {
