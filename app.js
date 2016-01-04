@@ -23,7 +23,7 @@ server.listen(port, function () {
 });
 
 
-//app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/public'));
 
 app.get("/b/*",function(req, res){
   var queryString = 'SELECT * FROM users WHERE username=?';
