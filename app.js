@@ -151,15 +151,29 @@ io.on('connection', function (socket) {
 
     // when the client emits 'typing', we broadcast it to others
     socket.on('typing', function () {
-      socket.broadcast.emit('typing', {
-        sender: socket.sender
+      var queryString = 'SELECT * FROM sockets WHERE (sender="'+socket.receiver+'" and receiver="'+socket.sender+'") or (sender="'+socket.sender+'" and receiver="'+socket.receiver+'" and socketid<>"'+socket.id+'")';
+      console.log("[MySQL] "+queryString);
+      db.query(queryString,function(err, rows, fields) {
+          if (err) throw err;
+          for (var i = 0; i < rows.length; i++) {
+            socket.to(rows[i].socketid).emit('typing', {
+              sender: socket.sender
+            });
+          }
       });
     });
 
     // when the client emits 'stop typing', we broadcast it to others
     socket.on('stop typing', function () {
-      socket.broadcast.emit('stop typing', {
-        sender: socket.sender
+      var queryString = 'SELECT * FROM sockets WHERE (sender="'+socket.receiver+'" and receiver="'+socket.sender+'") or (sender="'+socket.sender+'" and receiver="'+socket.receiver+'" and socketid<>"'+socket.id+'")';
+      console.log("[MySQL] "+queryString);
+      db.query(queryString,function(err, rows, fields) {
+          if (err) throw err;
+          for (var i = 0; i < rows.length; i++) {
+            socket.to(rows[i].socketid).emit('stop typing', {
+              sender: socket.sender
+            });
+          }
       });
     });
 
@@ -170,7 +184,7 @@ io.on('connection', function (socket) {
 
         console.log("Socket disconnect "+socket.id);
 
-        var queryString = 'DELETE FROM sockets WHERE sender="'+socket.sender+'" and receiver="'+socket.receiver+'"';
+        var queryString = 'DELETE FROM sockets WHERE socketid="'+socket.id+'" and sender="'+socket.sender+'" and receiver="'+socket.receiver+'"';
         console.log("[MySQL] "+queryString);
         db.query(queryString,function(err) {
             if (err) throw err;
