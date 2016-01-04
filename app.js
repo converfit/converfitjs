@@ -10,14 +10,14 @@ var io = require('socket.io')(server);
 var port = process.env.PORT || 8888;
 
 var mysql      = require('mysql');
-var db = mysql.createConnection({
+var connection = mysql.createConnection({
   host     : 'localhost',
   user     : 'root',
   password : 'C1t10us@MySql-1',
   database : 'node'
 });
 
-db.connect();
+connection.connect();
 
 server.listen(port, function () {
   console.log('Server listening at port %d', port);
@@ -32,7 +32,7 @@ app.use(express.static(__dirname + '/public'));
 app.get("/user/*",function(req, res){
   var queryString = 'SELECT * FROM users WHERE username=?';
   console.log("SELECT * FROM users WHERE username="+req.url);
-  db.query(queryString, req.url,function(err, rows, fields) {
+  connection.query(queryString, req.url,function(err, rows, fields) {
       if (err) throw err;
       if (rows==0){
         res.sendFile(__dirname + '/404/index.html');
@@ -79,7 +79,7 @@ io.on('connection', function (socket) {
       created: timestamp()
     };
 
-    db.query('INSERT INTO messages SET ?', message, function(err,res){
+    connection.query('INSERT INTO messages SET ?', message, function(err,res){
       if(err) throw err;
     });
 
