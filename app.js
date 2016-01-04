@@ -21,7 +21,6 @@ db.connect();
 
 server.listen(port, function () {
   console.log('Server listening at port %d', port);
-  console.log(timestamp());
 });
 
 //
@@ -86,8 +85,7 @@ io.on('connection', function (socket) {
       receiver:socket.receiver,
       type:"chat",
       body:data,
-      unread:"0",
-      created:timestamp()
+      unread:"0"
     };
 
     db.query('INSERT INTO messages SET ?', message, function(err,res){
@@ -100,8 +98,7 @@ io.on('connection', function (socket) {
       receiver:socket.receiver,
       type:"chat",
       body:data,
-      unread:"1",
-      created:timestamp()
+      unread:"1"
     };
 
     db.query('INSERT INTO messages SET ?', message, function(err,res){
