@@ -30,17 +30,8 @@ var receiver={};
 app.use(express.static(__dirname + '/public'));
 
 app.get("/user/*",function(req, res){
-  var queryString = 'SELECT id FROM users WHERE username="'+req.url+'"';
-  console.log("[MySQL] "+queryString);
-  db.query(queryString,function(err, rows, fields) {
-      if (err) throw err;
-      if (rows==0){
-        res.sendFile(__dirname + '/404/index.html');
-      }else{
-        receiver.username=req.url;
-        res.sendFile(__dirname + '/public/index.html');
-      }
-  });
+  receiver.username=req.url;
+  res.sendFile(__dirname + '/public/index.html');
 });
 
 // Chatroom
