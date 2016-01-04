@@ -53,7 +53,6 @@ io.on('connection', function (socket) {
   var addedUser = false;
   socket.receiver=receiver.username;
 
-  socket.emit('login', function (username){
 
   socket.on('login', function (username){
 
