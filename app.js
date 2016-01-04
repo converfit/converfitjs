@@ -137,12 +137,17 @@ io.on('connection', function (socket) {
         if(err) throw err;
       });
 
-
-      socket.to(socketids[socket.receiver+"::"+socket.sender]).emit('new message',  {
-        sender: socket.sender,
-        body: data
+      var queryString = 'SELECT * FROM sockets WHERE sender="'+socket.receiver+'" and receiver="'+socket.sender+'"';
+      console.log("[MySQL] "+queryString);
+      db.query(queryString,function(err, rows, fields) {
+          if (err) throw err;
+          for (var i = 0; i < rows.length; i++) {
+            socket.to(rows[i].socketid).emit('new message',  {
+              sender: rows[i].sender,
+              body: data
+            });
+          }
       });
-
     });
 
     // when the client emits 'add user', this listens and executes
@@ -187,7 +192,12 @@ io.on('connection', function (socket) {
 
         console.log("Socket disconnect "+socket.id);
 
-        delete socketids[socket.sender+"::"+socket.receiver];
+        var queryString = 'DELETE FROM sockets WHERE sender="'+socket.sender+'" and receiver="'+socket.receiver+'"';
+        console.log("[MySQL] "+queryString);
+        db.query(queryString,function(err) {
+            if (err) throw err;
+        });
+
         delete users[socket.id]
         // echo globally that this client has left
         socket.broadcast.emit('user left', {
