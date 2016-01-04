@@ -37,6 +37,7 @@ app.get("/user/*",function(req, res){
 // Chatroom
 var numUsers = 0;
 var users = {};
+var socketids = {};
 
 
 io.on('connection', function (socket) {
@@ -67,6 +68,7 @@ io.on('connection', function (socket) {
           }else{
             socket.sender = username;
             users[socket.id]=username;
+            socketids[socket.sender+"::"+socket.receiver]=socket.id;
             ++numUsers;
             addedUser = true;
 
@@ -119,11 +121,11 @@ io.on('connection', function (socket) {
       });
 
 
-      // we tell the client to execute 'new message'
-      socket.broadcast.emit('new message', {
+      socket.to(ocketids[socket.receiver+"::"+socket.sender]).emit('new message',  {
         sender: socket.sender,
         body: data
       });
+
     });
 
     // when the client emits 'add user', this listens and executes
@@ -168,6 +170,7 @@ io.on('connection', function (socket) {
 
         console.log("Socket disconnect "+socket.id);
 
+        delete socketids[socket.sender+"::"+socket.receiver];
         delete users[socket.id]
         // echo globally that this client has left
         socket.broadcast.emit('user left', {
