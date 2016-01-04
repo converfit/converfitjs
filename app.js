@@ -10,14 +10,14 @@ var io = require('socket.io')(server);
 var port = process.env.PORT || 8888;
 
 var mysql      = require('mysql');
-var db = mysql.createConnection({
+var connection = mysql.createConnection({
   host     : 'localhost',
   user     : 'root',
   password : 'C1t10us@MySql-1',
   database : 'node'
 });
 
-db.connect();
+connection.connect();
 
 server.listen(port, function () {
   console.log('Server listening at port %d', port);
