@@ -160,16 +160,16 @@ $(function() {
   // Gets the 'X is typing' messages of a user
   function getTypingMessages (data) {
     return $('.typing.message').filter(function (i) {
-      return $(this).data('sender') === data.sender;
+      return $(this).data('username') === data.username;
     });
   }
 
   // Gets the color of a username through our hash function
-  function getUsernameColor (sender) {
+  function getUsernameColor (username) {
     // Compute hash code
     var hash = 7;
-    for (var i = 0; i < sender.length; i++) {
-       hash = sender.charCodeAt(i) + (hash << 5) - hash;
+    for (var i = 0; i < username.length; i++) {
+       hash = username.charCodeAt(i) + (hash << 5) - hash;
     }
     // Calculate color
     var index = Math.abs(hash % COLORS.length);
@@ -185,14 +185,14 @@ $(function() {
     }
     // When the client hits ENTER on their keyboard
     if (event.which === 13) {
-      if (sender) {
+      if (username) {
         sendMessage();
         socket.emit('stop typing');
         typing = false;
       } else {
-        sender = cleanInput($usernameInput.val().trim());
-        if(sender){
-          login(sender);
+        username = cleanInput($usernameInput.val().trim());
+        if(username){
+          login(username);
         }
       }
     }
@@ -231,8 +231,8 @@ $(function() {
   });
 
   socket.on('login error', function (data) {
-    localStorage.removeItem(sender);
-    sender=false;
+    localStorage.removeItem(username);
+    username=false;
   });
 
   socket.on('user header',function (data){
@@ -240,13 +240,11 @@ $(function() {
   });
 
   socket.on('messages backup',function (data){
-    console.error("messages backup START");
     $.each(data, function(index, message){
-      console.error(index);
-      addChatMessage(message);
-    });
-    console.error("messages backup END");
+      console.log("INDEX: " + index + " VALUE: " + value);
+      addChatMessage(message.body);
 
+    });
   });
 
 
@@ -257,15 +255,15 @@ $(function() {
 
   // Whenever the server emits 'user joined', log it in the chat body
   socket.on('user joined', function (data) {
-    log(data.sender + ' joined');
-    users[data.socketid]=data.sender;
-    $users_list.prepend("<li id='"+data.socketid+"'><a>"+data.sender+"</a></li>");
+    log(data.username + ' joined');
+    users[data.socketid]=data.username;
+    $users_list.prepend("<li id='"+data.socketid+"'><a>"+data.username+"</a></li>");
 
   });
 
   // Whenever the server emits 'user left', log it in the chat body
   socket.on('user left', function (data) {
-    log(data.sender + ' left');
+    log(data.username + ' left');
 
     delete users[data.socketid];
 
