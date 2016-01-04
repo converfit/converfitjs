@@ -55,7 +55,7 @@ app.use(function(req, res) {
       if (err) throw err;
 
       for (var i in rows) {
-          console.log('Post Titles: ', rows[i].post_title);
+          console.log('Post Titles: ', rows[i].username);
       }
   });
 });
