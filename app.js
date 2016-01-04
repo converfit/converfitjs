@@ -50,7 +50,7 @@ var numUsers = 0;
 var users = {};
 
 
-io.on('db', function (socket) {
+io.on('connection', function (socket) {
   var addedUser = false;
   socket.receiver=receiver;
 
