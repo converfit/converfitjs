@@ -76,7 +76,7 @@ io.on('connection', function (socket) {
           ++numUsers;
           addedUser = true;
 
-          var queryString = 'SELECT * FROM messages WHERE owner="'+socket.sender+'" and (sender="'+socket.receiver+'" or receiver="'+socket.receiver+'"';
+          var queryString = 'SELECT * FROM messages WHERE owner="'+socket.sender+'" and (sender="'+socket.receiver+'" or receiver="'+socket.receiver+'")';
           console.log(queryString);
           db.query(queryString,function(err, rows, fields) {
               if (err) throw err;
