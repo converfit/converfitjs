@@ -43,7 +43,8 @@ app.get('/logout',function(req, res){
 
 // Routing
 
-app.get('/:username', function(req, res, next){
+app.get(function(req, res, next){
+  console.log("inside");
     next();
 });
 
