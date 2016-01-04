@@ -38,7 +38,8 @@ app.get("/user/*",function(req, res){
       if (rows==0){
         res.sendFile(__dirname + '/404/index.html');
       }else{
-        var receiver=req.url;
+        receiver=req.url;
+        console.log(receiver);
         res.sendFile(__dirname + '/public/index.html');
       }
   });
