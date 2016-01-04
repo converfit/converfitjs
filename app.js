@@ -42,6 +42,13 @@ app.get('/logout',function(req, res){
 
 
 // Routing
+
+app.get('/:username/', function(req, res){
+    var uid = req.params.uid,
+    path = req.params[0] ? req.params[0] : 'index.html';
+    res.sendfile(path, {root: './public'});
+});
+/*
 app.use(express.static(__dirname + '/public'));
 
 app.use(function(req, res) {
@@ -60,7 +67,7 @@ app.use(function(req, res) {
       }
   });
 });
-
+*/
 
 
 
