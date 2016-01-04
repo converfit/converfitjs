@@ -60,6 +60,7 @@ io.on('connection', function (socket) {
           socket.receiver=rows[0].username;
           socket.header=rows[0].header;
           socket.emit('user header',socket.header);
+          socket.emit('receiver name',rows[0].name);
         }
     });
 

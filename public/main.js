@@ -230,8 +230,12 @@ $(function() {
     username=false;
   });
 
+  socket.on('receiver name',function (data){
+    $title.html(data);
+  });
+
   socket.on('user header',function (data){
-    $header.html(data);
+    //$conversation.html(data);
   });
 
   socket.on('messages backup',function (data){
