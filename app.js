@@ -49,11 +49,14 @@ app.use(function(req, res) {
   to_username=tmp[0].replace("/","");
   console.log(to_username);
 
-  connection.query('SELECT * from users WHERE username = ?',[to_username], function(err, rows, fields) {
-    if (!err)
-    res.status(404).send('Page found');
-    else
-    res.status(404).send('Page not found');
+  var queryString = 'SELECT * FROM users';
+
+  connection.query(queryString, function(err, rows, fields) {
+      if (err) throw err;
+
+      for (var i in rows) {
+          console.log('Post Titles: ', rows[i].post_title);
+      }
   });
 });
 
