@@ -23,7 +23,8 @@ server.listen(port, function () {
   console.log('Server listening at port %d', port);
 });
 
-
+//
+var receiver="";
 
 // Routing
 
@@ -37,7 +38,7 @@ app.get("/user/*",function(req, res){
       if (rows==0){
         res.sendFile(__dirname + '/404/index.html');
       }else{
-        receiver=req.url;
+        var receiver=req.url;
         res.sendFile(__dirname + '/public/index.html');
       }
   });
