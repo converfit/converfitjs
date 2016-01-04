@@ -51,9 +51,9 @@ var users = {};
 io.on('connection', function (socket) {
   var addedUser = false;
 
-  var queryString = 'SELECT * FROM users WHERE username=?';
+  var queryString = 'SELECT * FROM users WHERE username="'+receiver.username+'"';
   console.log("[MySQL] "+queryString);
-  db.query(queryString, receiver.username,function(err, rows, fields) {
+  db.query(queryString,function(err, rows, fields) {
       if (err) throw err;
       if (rows==0){
         res.sendFile(__dirname + '/404/index.html');
@@ -67,7 +67,7 @@ io.on('connection', function (socket) {
 
   socket.on('login', function (username){
 
-    var queryString = 'SELECT * FROM users WHERE username="/user/'+username'"';
+    var queryString = 'SELECT * FROM users WHERE username="/user/'+username+'"';
     console.log("[MySQL] "+queryString);
     db.query(queryString, function(err, rows, fields) {
         if (err) throw err;
