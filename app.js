@@ -79,12 +79,6 @@ io.on('connection', function (socket) {
       created: timestamp()
     };
 
-    con.query('INSERT INTO employees SET ?', employee, function(err,res){
-      if(err) throw err;
-
-      console.log('Last insert ID:', res.insertId);
-    });
-
     // we tell the client to execute 'new message'
     socket.broadcast.emit('new message', {
       username: socket.username,
