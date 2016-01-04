@@ -35,7 +35,7 @@ $(function() {
   // Sets the client's username
   function login (data) {
     console.error("login");
-    username=data;
+    username="/user/"+data;
     socket.emit('login',username);
   }
 
