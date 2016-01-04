@@ -160,7 +160,7 @@ $(function() {
   // Gets the 'X is typing' messages of a user
   function getTypingMessages (data) {
     return $('.typing.message').filter(function (i) {
-      return $(this).data('username') === data.username;
+      return $(this).data('username') === data.sender;
     });
   }
 
