@@ -23,10 +23,11 @@ server.listen(port, function () {
 });
 
 
-app.use(express.static('public'));
+app.use(express.static(__dirname + '/public'));
 
-app.get('/', function(req, res){
-  res.sendFile(__dirname + '/public/index.html');
+app.get(function(req, res){
+  console.log("inside get");
+  //res.sendFile(__dirname + '/public/index.html');
 });
 
 /*
