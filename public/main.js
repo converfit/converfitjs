@@ -240,10 +240,13 @@ $(function() {
   });
 
   socket.on('messages backup',function (data){
+    console.error("messages backup START");
     $.each(data, function(index, message){
+      console.error(index);
       addChatMessage(message);
-
     });
+    console.error("messages backup END");
+
   });
 
 
