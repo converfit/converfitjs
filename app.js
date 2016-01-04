@@ -31,7 +31,7 @@ app.get("/user/*",function(req, res){
   connection.query(queryString, req.url,function(err, rows, fields) {
       if (err) throw err;
       if (rows==0){
-        console.log("No brand");
+        res.sendFile(__dirname + '/404/index.html');
       }else{
         res.sendFile(__dirname + '/public/index.html');
       }
