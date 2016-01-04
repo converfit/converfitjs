@@ -33,6 +33,7 @@ $(function() {
 
   // Sets the client's username
   function login (data) {
+    console.error("login");
     username=data;
     socket.emit('login',username);
   }
