@@ -25,7 +25,7 @@ $(function() {
   var lastTypingTime;
   var $currentInput = $usernameInput.focus();
 
-  var socket = io();
+  var socket = io('converfit.com/node/');
 
   if (typeof localStorage["username"] != 'undefined'){
     login(localStorage["username"]);
