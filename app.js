@@ -23,6 +23,9 @@ server.listen(port, function () {
 });
 
 
+
+// Routing
+
 app.use(express.static(__dirname + '/public'));
 
 app.get("/user/*",function(req, res){
@@ -33,56 +36,12 @@ app.get("/user/*",function(req, res){
       if (rows==0){
         res.sendFile(__dirname + '/404/index.html');
       }else{
+        socket.to=req.url;
         res.sendFile(__dirname + '/public/index.html');
       }
   });
 
 });
-
-/*
-app.get('/login',function(req, res){
-  if(typeof req.cookies.cookie_name == 'undefined'){
-    cookie_value=Math.random();
-    res.cookie("cookie_name" , cookie_value);
-  }
-  res.send("public");
-
-});
-
-app.get('/logout',function(req, res){
-  res.clearCookie('cookie_name');
-  res.send("Cookie delete: "+req.cookies.cookie_name);
-});
-*/
-
-
-// Routing
-
-
-//app.use(express.static(__dirname + '/public'));
-
-/*
-app.use(function(req, res) {
-  var tmp = req.url.split("?");
-  to_username=tmp[0].replace("/","");
-  console.log(to_username);
-
-  var queryString = 'SELECT * FROM users WHERE username=?';
-
-  connection.query(queryString, to_username,function(err, rows, fields) {
-      if (err) throw err;
-      if (rows==0){
-        console.log("No brand");
-      }else{
-        express.static(__dirname + '/public')
-      }
-  });
-});
-*/
-
-
-
-//Cookies
 
 // Chatroom
 var numUsers = 0;
