@@ -46,11 +46,10 @@ app.get('/logout',function(req, res){
 app.get('/:username/', function(req, res){
     var uid = req.params.uid,
     path = req.params[0] ? req.params[0] : 'index.html';
-    res.sendFile(path, {root: __dirname+'/public'});
 });
-/*
-app.use(express.static(__dirname + '/public'));
 
+app.use(express.static(__dirname + '/public'));
+/*
 app.use(function(req, res) {
   var tmp = req.url.split("?");
   to_username=tmp[0].replace("/","");
