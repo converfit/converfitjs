@@ -218,16 +218,13 @@ $(function() {
   socket.on('logged', function (data) {
     connected = true;
     // Display the welcome message
-    var message = "Welcome to Socket.IO Chat – ";
-    log(message, {
-      prepend: true
-    });
     users=data;
     $users_list.html("");
     for (var key in users) {
-      console.error("["+key+"] "+users[key]);
       $users_list.prepend("<li id='"+key+"'><a>"+users[key]+"</a></li>");
     }
+    $loginPage.fadeOut();
+    $chatPage.fadeIn();
 
   });
 
