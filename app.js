@@ -51,7 +51,7 @@ app.use(function(req, res) {
 
   connection.query('SELECT * from users WHERE username = ?',[to_username], function(err, rows, fields) {
     if (!err)
-      console.log('The solution is: ', rows);
+    res.status(404).send('Page found');
     else
     res.status(404).send('Page not found');
   });
