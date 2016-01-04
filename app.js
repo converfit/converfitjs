@@ -32,7 +32,6 @@ app.use(express.static(__dirname + '/public'));
 
 app.get("/user/*",function(req, res){
   var queryString = 'SELECT * FROM users WHERE username=?';
-  console.log("SELECT * FROM users WHERE username="+req.url);
   db.query(queryString, req.url,function(err, rows, fields) {
       if (err) throw err;
       if (rows==0){
@@ -57,17 +56,23 @@ io.on('connection', function (socket) {
 
   socket.on('login', function (username){
 
-    socket.sender = username;
+    var queryString = 'SELECT * FROM users WHERE username=?';
+    db.query(queryString, "/user/"+username,function(err, rows, fields) {
+        if (err) throw err;
+        if (rows==0){
+          socket.emit('login error');
+        }else{
+          socket.sender = username;
+          users[socket.id]=username;
+          ++numUsers;
+          addedUser = true;
+          socket.emit('logged', users);
 
-    console.log("[Login] "+username);
-    users[socket.id]=username;
-    ++numUsers;
-    addedUser = true;
-    socket.emit('logged', users);
-
-    socket.broadcast.emit('user joined', {
-      username: socket.username,
-      socketid: socket.id
+          socket.broadcast.emit('user joined', {
+            username: socket.username,
+            socketid: socket.id
+          });
+        }
     });
   });
 
