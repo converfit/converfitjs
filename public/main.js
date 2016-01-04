@@ -241,8 +241,8 @@ $(function() {
 
   socket.on('messages backup',function (data){
     $.each(data, function(index, message){
-      console.log("INDEX: " + index + " VALUE: " + value);
-      addChatMessage(message.body);
+      console.log("INDEX: " + index + " VALUE: " + message);
+      addChatMessage(message);
 
     });
   });
