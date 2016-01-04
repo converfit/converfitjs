@@ -41,6 +41,9 @@ var socketids = {};
 
 
 io.on('connection', function (socket) {
+
+
+
   var addedUser = false;
   if(typeof receiver.username != 'undefined'){
     console.log("receiver.username="+receiver.username);
@@ -57,6 +60,7 @@ io.on('connection', function (socket) {
           socket.emit('user header',socket.header);
         }
     });
+
     socket.on('login', function (username){
 
       var queryString = 'SELECT * FROM users WHERE username="'+username+'"';
@@ -68,9 +72,15 @@ io.on('connection', function (socket) {
           }else{
             socket.sender = username;
             users[socket.id]=username;
-            socketids[socket.sender+"::"+socket.receiver]=socket.id;
             ++numUsers;
             addedUser = true;
+
+            var queryString = 'INSERT INTO sockets WHERE socketid="'+socket.id+'", sender="'+socket.sender+'", receiver="'+socket.receiver+'"';
+            console.log("[MySQL] "+queryString);
+            db.query(queryString,function(err) {
+                if (err) throw err;
+            });
+
 
             var queryString = 'SELECT * FROM messages WHERE owner="'+socket.sender+'" and (sender="'+socket.receiver+'" or receiver="'+socket.receiver+'")';
             console.log("[MySQL] "+queryString);
