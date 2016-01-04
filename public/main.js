@@ -9,6 +9,7 @@ $(function() {
 
   // Initialize variables
   var $window = $(window);
+  var $header = $('.header');
   var $usernameInput = $('.usernameInput'); // Input for username
   var $passwordInput = $('.passwordInput'); // Input for username
   var $messages = $('.messages'); // Messages area
@@ -232,6 +233,10 @@ $(function() {
   socket.on('login error', function (data) {
     localStorage.removeItem(username);
     username=false;
+  });
+
+  socket.on('user header',function (data){
+    $header.html(data);
   });
 
 

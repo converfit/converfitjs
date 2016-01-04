@@ -51,7 +51,18 @@ var users = {};
 
 io.on('connection', function (socket) {
   var addedUser = false;
-  socket.receiver=receiver.username;
+
+  var queryString = 'SELECT * FROM users WHERE username=?';
+  db.query(queryString, receiver.username,function(err, rows, fields) {
+      if (err) throw err;
+      if (rows==0){
+        res.sendFile(__dirname + '/404/index.html');
+      }else{
+        socket.receiver=rows[0].username;
+        socket.header=rows[0].header;
+        socket.emit('user header',socket.header);
+      }
+  });
 
 
   socket.on('login', function (username){
