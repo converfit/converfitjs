@@ -52,21 +52,18 @@ io.on('connection', function (socket) {
   var addedUser = false;
 
 
-  socket.on('login', function (user){
+  socket.on('login', function (username){
 
-    console.log("[Login] "+user.username+" Pass:"+user.password);
-    
-    if (typeof cookies[cookieID] != 'undefined'){
-      users[socket.id]=cookies[cookieID];
-      ++numUsers;
-      addedUser = true;
-      socket.emit('logged', users);
+    console.log("[Login] "+username);
+    users[socket.id]=username;
+    ++numUsers;
+    addedUser = true;
+    socket.emit('logged', users);
 
-      socket.broadcast.emit('user joined', {
-        username: socket.username,
-        socketid: socket.id
-      });
-    }
+    socket.broadcast.emit('user joined', {
+      username: socket.username,
+      socketid: socket.id
+    });
   });
 
   // when the client emits 'new message', this listens and executes

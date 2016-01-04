@@ -27,24 +27,17 @@ $(function() {
 
   var socket = io();
 
-  if ((typeof localStorage["username"] == 'undefined') || (typeof localStorage["password"] == 'undefined')){
-    localStorage["username"]="Pablo";
-    localStorage["password"]="secret";
+  if (typeof localStorage["username"] != 'undefined'){
+    login();
   }
 
 
   // Sets the client's username
   function login () {
     username = cleanInput($usernameInput.val().trim());
-    password = cleanInput($passwordInput.val().trim());
-
     if (username) {
-      socket.emit('login', {
-        username: username,
-        password: password
-      });
+      socket.emit('login',username);
     }
-
   }
 
   // Sends a chat message
@@ -198,7 +191,7 @@ $(function() {
         socket.emit('stop typing');
         typing = false;
       } else {
-        setUsername();
+        login();
       }
     }
   });
