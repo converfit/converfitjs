@@ -49,9 +49,9 @@ app.use(function(req, res) {
   to_username=tmp[0].replace("/","");
   console.log(to_username);
 
-  var queryString = 'SELECT * FROM users';
+  var queryString = 'SELECT * FROM users WHERE username=?';
 
-  connection.query(queryString, function(err, rows, fields) {
+  connection.query(queryString, to_username,function(err, rows, fields) {
       if (err) throw err;
 
       for (var i in rows) {
