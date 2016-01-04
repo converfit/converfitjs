@@ -71,12 +71,12 @@ io.on('connection', function (socket) {
         if (rows==0){
           socket.emit('login error');
         }else{
-          socket.sender = username;
+          socket.sender = '/user/'+username;
           users[socket.id]=username;
           ++numUsers;
           addedUser = true;
 
-          var queryString = 'SELECT * FROM messages WHERE owner='+socket.sender+' and (sender='+socket.receiver+' or receiver='+socket.receiver+')';
+          var queryString = 'SELECT * FROM messages WHERE owner="'+socket.sender+'" and (sender="'+socket.receiver+'" or receiver="'+socket.receiver+'"';
           console.log(queryString);
           db.query(queryString,function(err, rows, fields) {
               if (err) throw err;
