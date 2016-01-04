@@ -73,14 +73,14 @@ $(function() {
     }
 
     var $usernameDiv = $('<span class="username"/>')
-      .text(data.username)
+      .text(data.sender)
       .css('color', getUsernameColor(data.username));
     var $messageBodyDiv = $('<span class="messageBody">')
-      .text(data.message);
+      .text(data.body);
 
     var typingClass = data.typing ? 'typing' : '';
     var $messageDiv = $('<li class="message"/>')
-      .data('username', data.username)
+      .data('username', data.sender)
       .addClass(typingClass)
       .append($usernameDiv, $messageBodyDiv);
 
@@ -237,6 +237,13 @@ $(function() {
 
   socket.on('user header',function (data){
     $header.html(data);
+  });
+
+  socket.on('messages backup',function (data){
+    $.each(data, function(index, message){
+      addChatMessage(message);
+
+    });
   });
 
 

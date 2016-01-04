@@ -77,13 +77,10 @@ io.on('connection', function (socket) {
           addedUser = true;
 
           var queryString = 'SELECT * FROM messages WHERE owner="'+socket.sender+'" and (sender="'+socket.receiver+'" or receiver="'+socket.receiver+'")';
-          console.log(queryString);
           db.query(queryString,function(err, rows, fields) {
               if (err) throw err;
-              if (rows==0){
-                console.log("Conversation Empty");
-              }else{
-                console.log("Conversation not Empty");
+              if (rows!=0){
+                socket.emit('messages backup', rows);
               }
           });
 
@@ -129,8 +126,8 @@ io.on('connection', function (socket) {
 
     // we tell the client to execute 'new message'
     socket.broadcast.emit('new message', {
-      username: socket.username,
-      message: data
+      sender: socket.username,
+      body: data
     });
   });
 
