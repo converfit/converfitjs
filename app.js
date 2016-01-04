@@ -75,7 +75,7 @@ io.on('connection', function (socket) {
             ++numUsers;
             addedUser = true;
 
-            var queryString = 'INSERT INTO sockets WHERE socketid="'+socket.id+'", sender="'+socket.sender+'", receiver="'+socket.receiver+'"';
+            var queryString = 'INSERT INTO sockets SET socketid="'+socket.id+'", sender="'+socket.sender+'", receiver="'+socket.receiver+'"';
             console.log("[MySQL] "+queryString);
             db.query(queryString,function(err) {
                 if (err) throw err;
