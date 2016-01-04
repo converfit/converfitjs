@@ -58,14 +58,14 @@ io.on('connection', function (socket) {
     });
     socket.on('login', function (username){
 
-      var queryString = 'SELECT * FROM users WHERE username="/user/'+username+'"';
+      var queryString = 'SELECT * FROM users WHERE username="'+username+'"';
       console.log("[MySQL] "+queryString);
       db.query(queryString, function(err, rows, fields) {
           if (err) throw err;
           if (rows==0){
             socket.emit('login error');
           }else{
-            socket.sender = '/user/'+username;
+            socket.sender = username;
             users[socket.id]=username;
             ++numUsers;
             addedUser = true;
