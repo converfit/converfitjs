@@ -26,7 +26,7 @@ server.listen(port, function () {
 app.use(bodyParser.urlencoded({ extended: false } ));
 app.use(express.static('static'));
 
-app.get('/', (req, res) => {
+app.get('/', function(req, res){
   res.sendFile(__dirname + '/public/index.html');
 });
 
