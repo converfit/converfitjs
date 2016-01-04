@@ -217,12 +217,6 @@ $(function() {
   // Whenever the server emits 'login', log the login message
   socket.on('logged', function (data) {
     connected = true;
-    // Display the welcome message
-    users=data;
-    $users_list.html("");
-    for (var key in users) {
-      $users_list.prepend("<li id='"+key+"'><a>"+users[key]+"</a></li>");
-    }
     $loginPage.fadeOut();
     $chatPage.fadeIn();
 
@@ -247,16 +241,6 @@ $(function() {
   // Whenever the server emits 'new message', update the chat body
   socket.on('new message', function (data) {
     addChatMessage(data);
-  });
-
-  // Whenever the server emits 'user left', log it in the chat body
-  socket.on('user left', function (data) {
-    log(data.username + ' left');
-
-    delete users[data.socketid];
-
-    $("#"+data.socketid).remove();
-    removeChatTyping(data);
   });
 
   // Whenever the server emits 'typing', show the typing message

@@ -41,11 +41,6 @@ app.get("/user/*",function(req, res){
   res.sendFile(__dirname + '/public/index.html');
 });
 
-// Chatroom
-var numUsers = 0;
-var users = {};
-var socketids = {};
-
 
 io.on('connection', function (socket) {
 
@@ -78,8 +73,6 @@ io.on('connection', function (socket) {
             socket.emit('login error');
           }else{
             socket.sender = username;
-            users[socket.id]=username;
-            ++numUsers;
             addedUser = true;
 
             var queryString = 'INSERT INTO sockets SET socketid="'+socket.id+'", sender="'+socket.sender+'", receiver="'+socket.receiver+'"';
@@ -98,7 +91,7 @@ io.on('connection', function (socket) {
                 }
             });
 
-            socket.emit('logged', users);
+            socket.emit('logged');
 
             socket.broadcast.emit('user joined', {
               username: socket.username,
@@ -180,7 +173,6 @@ io.on('connection', function (socket) {
     // when the user disconnects.. perform this
     socket.on('disconnect', function () {
       if (addedUser) {
-        --numUsers;
 
         console.log("Socket disconnect "+socket.id);
 
@@ -190,12 +182,6 @@ io.on('connection', function (socket) {
             if (err) throw err;
         });
 
-        delete users[socket.id]
-        // echo globally that this client has left
-        socket.broadcast.emit('user left', {
-          username: socket.username,
-          socketid: socket.id
-        });
       }
     });
   }
