@@ -143,7 +143,7 @@ io.on('connection', function (socket) {
           if (err) throw err;
           for (var i = 0; i < rows.length; i++) {
             socket.to(rows[i].socketid).emit('new message',  {
-              sender: rows[i].sender,
+              sender: socket.sender,
               body: data
             });
           }
