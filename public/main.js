@@ -26,8 +26,9 @@ $(function() {
 
   var socket = io();
 
-  console.error("set cookie");
-  socket.emit('set cookie','a');
+  if (typeof localStorage["cookie"] == 'undefined'){
+    localStorage["cookie"]="cookie";
+  }
 
   // Sets the client's username
   function setUsername () {
