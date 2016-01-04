@@ -71,6 +71,11 @@ io.on('connection', function (socket) {
         if (rows==0){
           socket.emit('login error');
         }else{
+          socket.sender = username;
+          users[socket.id]=username;
+          ++numUsers;
+          addedUser = true;
+
           var queryString = 'SELECT * FROM messages WHERE owner='+socket.sender+' and (sender='+socket.receiver+' or receiver='+socket.receiver+')';
           console.log(queryString);
           db.query(queryString,function(err, rows, fields) {
@@ -81,10 +86,7 @@ io.on('connection', function (socket) {
                 console.log("Conversation not Empty");
               }
           });
-          socket.sender = username;
-          users[socket.id]=username;
-          ++numUsers;
-          addedUser = true;
+
           socket.emit('logged', users);
 
           socket.broadcast.emit('user joined', {
