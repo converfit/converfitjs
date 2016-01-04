@@ -23,10 +23,20 @@ server.listen(port, function () {
 });
 
 
-app.use(express.static(__dirname + '/public'));
+//app.use(express.static(__dirname + '/public'));
 
 app.get("/*",function(req, res){
-  console.log("inside get");
+  var queryString = 'SELECT * FROM users WHERE username=?';
+  console.log("SELECT * FROM users WHERE username="+req.url);
+  connection.query(queryString, req.url,function(err, rows, fields) {
+      if (err) throw err;
+      if (rows==0){
+        console.log("No brand");
+      }else{
+        express.static(__dirname + '/public')
+      }
+  });
+
   res.sendFile(__dirname + '/public/index.html');
 });
 
