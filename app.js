@@ -46,7 +46,7 @@ app.use(express.static(__dirname + '/public'));
 
 app.use(function(req, res) {
   var tmp = req.url.split("?");
-  to_username=tmp[0];
+  to_username=tmp[0].replace("/","");
   console.log(to_username);
 
   connection.query('SELECT * from users WHERE username = ?',[to_username], function(err, rows, fields) {
