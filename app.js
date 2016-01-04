@@ -47,20 +47,20 @@ app.use(function(req, res) {
 var numUsers = 0;
 var users = {};
 
-var cookies = {"a":"Pablo","b":"Juan"};
-
 
 io.on('connection', function (socket) {
   var addedUser = false;
 
 
-  socket.on('set cookie', function (cookieID){
+  socket.on('login', function (user){
 
+    console.log("[Login] "+user.username+" Pass:"+user.password);
+    
     if (typeof cookies[cookieID] != 'undefined'){
       users[socket.id]=cookies[cookieID];
       ++numUsers;
       addedUser = true;
-      socket.emit('login', users);
+      socket.emit('logged', users);
 
       socket.broadcast.emit('user joined', {
         username: socket.username,

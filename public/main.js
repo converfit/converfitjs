@@ -10,6 +10,7 @@ $(function() {
   // Initialize variables
   var $window = $(window);
   var $usernameInput = $('.usernameInput'); // Input for username
+  var $passwordInput = $('.passwordInput'); // Input for username
   var $messages = $('.messages'); // Messages area
   var $users_list = $('.users'); // Messages area
   var $inputMessage = $('.inputMessage'); // Input message input box
@@ -26,27 +27,24 @@ $(function() {
 
   var socket = io();
 
-  if (typeof localStorage["cookie"] == 'undefined'){
-    alert("set cookie");
-    localStorage["cookie"]="cookie";
-  }else{
-    alert("get cookie");
+  if ((typeof localStorage["username"] == 'undefined') || (typeof localStorage["password"] == 'undefined')){
+    localStorage["username"]="Pablo";
+    localStorage["password"]="secret";
   }
 
+
   // Sets the client's username
-  function setUsername () {
+  function login () {
     username = cleanInput($usernameInput.val().trim());
+    password = cleanInput($passwordInput.val().trim());
 
-    // If the username is valid
     if (username) {
-      $loginPage.fadeOut();
-      $chatPage.show();
-      $loginPage.off('click');
-      $currentInput = $inputMessage.focus();
-
-      // Tell the server your username
-      socket.emit('add user', username);
+      socket.emit('login', {
+        username: username,
+        password: password
+      });
     }
+
   }
 
   // Sends a chat message
@@ -224,7 +222,7 @@ $(function() {
   // Socket events
 
   // Whenever the server emits 'login', log the login message
-  socket.on('login', function (data) {
+  socket.on('logged', function (data) {
     connected = true;
     // Display the welcome message
     var message = "Welcome to Socket.IO Chat – ";
