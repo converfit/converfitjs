@@ -30,7 +30,7 @@ var receiver={};
 app.use(express.static(__dirname + '/public'));
 
 app.get("/user/*",function(req, res){
-  receiver.username=req.url;
+  receiver.sender=req.url;
   res.sendFile(__dirname + '/public/index.html');
 });
 
@@ -41,51 +41,54 @@ var users = {};
 
 io.on('connection', function (socket) {
   var addedUser = false;
-  if(typeof receiver.username != 'undefined'){
-    console.log("receiver.username="+receiver.username);
+  if(typeof receiver.sender != 'undefined'){
+    console.log("receiver.sender="+receiver.sender);
 
-    var queryString = 'SELECT * FROM users WHERE username="'+receiver.username+'"';
+    var queryString = 'SELECT * FROM users WHERE sender="'+receiver.sender+'"';
     console.log("[MySQL] "+queryString);
     db.query(queryString,function(err, rows, fields) {
         if (err) throw err;
         if (rows==0){
           res.sendFile(__dirname + '/404/index.html');
         }else{
-          socket.receiver=rows[0].username;
+          socket.receiver=rows[0].sender;
           socket.header=rows[0].header;
           socket.emit('user header',socket.header);
         }
     });
-    socket.on('login', function (username){
+    socket.on('login', function (sender){
 
-      var queryString = 'SELECT * FROM users WHERE username="/user/'+username+'"';
+      var queryString = 'SELECT * FROM users WHERE sender="/user/'+sender+'"';
       console.log("[MySQL] "+queryString);
       db.query(queryString, function(err, rows, fields) {
           if (err) throw err;
           if (rows==0){
             socket.emit('login error');
           }else{
-            socket.sender = '/user/'+username;
-            users[socket.id]=username;
+            socket.sender = '/user/'+sender;
+            users[socket.id]=sender;
             ++numUsers;
             addedUser = true;
 
-            var queryString = 'SELECT * FROM messages WHERE owner="'+socket.sender+'" and (sender="'+socket.receiver+'" or receiver="'+socket.receiver+'")';
-            console.log("[MySQL] "+queryString);
-            db.query(queryString,function(err, rows, fields) {
-                if (err) throw err;
-                if (rows!=0){
-                  console.log("[emit] messages backup");
-                  socket.emit('messages backup', rows);
-                }
-            });
 
             socket.emit('logged', users);
 
             socket.broadcast.emit('user joined', {
-              username: socket.username,
+              sender: socket.sender,
               socketid: socket.id
             });
+          }
+      });
+    });
+
+    socket.on('list messages', function(){
+      var queryString = 'SELECT * FROM messages WHERE owner="'+socket.sender+'" and (sender="'+socket.receiver+'" or receiver="'+socket.receiver+'")';
+      console.log("[MySQL] "+queryString);
+      db.query(queryString,function(err, rows, fields) {
+          if (err) throw err;
+          if (rows!=0){
+            console.log("[emit] messages backup");
+            socket.emit('list messages', rows);
           }
       });
     });
@@ -122,19 +125,19 @@ io.on('connection', function (socket) {
 
       // we tell the client to execute 'new message'
       socket.broadcast.emit('new message', {
-        sender: socket.username,
+        sender: socket.sender,
         body: data
       });
     });
 
     // when the client emits 'add user', this listens and executes
-    socket.on('add user', function (username) {
+    socket.on('add user', function (sender) {
       if (addedUser) return;
 
-      // we store the username in the socket session for this client
-      socket.username = username;
+      // we store the sender in the socket session for this client
+      socket.sender = sender;
 
-      users[socket.id]=socket.username;
+      users[socket.id]=socket.sender;
 
 
 
@@ -143,7 +146,7 @@ io.on('connection', function (socket) {
       socket.emit('login', users);
 
       socket.broadcast.emit('user joined', {
-        username: socket.username,
+        sender: socket.sender,
         socketid: socket.id
       });
     });
@@ -151,14 +154,14 @@ io.on('connection', function (socket) {
     // when the client emits 'typing', we broadcast it to others
     socket.on('typing', function () {
       socket.broadcast.emit('typing', {
-        username: socket.username
+        sender: socket.sender
       });
     });
 
     // when the client emits 'stop typing', we broadcast it to others
     socket.on('stop typing', function () {
       socket.broadcast.emit('stop typing', {
-        username: socket.username
+        sender: socket.sender
       });
     });
 
@@ -172,7 +175,7 @@ io.on('connection', function (socket) {
         delete users[socket.id]
         // echo globally that this client has left
         socket.broadcast.emit('user left', {
-          username: socket.username,
+          sender: socket.sender,
           socketid: socket.id
         });
       }
