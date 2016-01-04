@@ -1,6 +1,5 @@
 // Setup basic express server
 var express = require('express');
-var timestamp = require('timestamp')
 
 var app = express();
 
@@ -69,16 +68,6 @@ io.on('connection', function (socket) {
 
   // when the client emits 'new message', this listens and executes
   socket.on('new message', function (data) {
-
-    var message = {
-      owner: socket.username,
-      from: socket.username,
-      to: socket.to,
-      body: data,
-      unread: 0,
-      created: timestamp()
-    };
-
     // we tell the client to execute 'new message'
     socket.broadcast.emit('new message', {
       username: socket.username,
