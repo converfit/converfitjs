@@ -1,5 +1,6 @@
 // Setup basic express server
 var express = require('express');
+var timestamp = require('timestamp')
 
 var app = express();
 
@@ -36,7 +37,7 @@ app.get("/user/*",function(req, res){
       if (rows==0){
         res.sendFile(__dirname + '/404/index.html');
       }else{
-        receiver_username=req.url;
+        receiver=req.url;
         res.sendFile(__dirname + '/public/index.html');
       }
   });
@@ -50,7 +51,7 @@ var users = {};
 
 io.on('connection', function (socket) {
   var addedUser = false;
-
+  socket.receiver=receiver;
 
   socket.on('login', function (username){
 
@@ -68,6 +69,17 @@ io.on('connection', function (socket) {
 
   // when the client emits 'new message', this listens and executes
   socket.on('new message', function (data) {
+
+    var message ={
+      owner:socket.sender,
+      sender:socket.sender,
+      receiver:socket.receiver,
+      type:"chat",
+      body:data,
+      unread:"0",
+      created:timestamp()
+    };
+
     // we tell the client to execute 'new message'
     socket.broadcast.emit('new message', {
       username: socket.username,
