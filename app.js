@@ -72,6 +72,7 @@ io.on('connection', function (socket) {
       db.query(queryString, function(err, rows, fields) {
           if (err) throw err;
           if (rows==0){
+            console.log("[socket.emit] login error");
             socket.emit('login error');
           }else{
             socket.sender = username;
