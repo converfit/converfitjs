@@ -11,8 +11,8 @@ $(function() {
   var $window = $(window);
   var $header = $('.header');
   var $headerTitle = $('header-title');
-  var $usernameInput = $('.usernameInput'); // Input for username
-  var $passwordInput = $('.passwordInput'); // Input for username
+  var $usernameInput = $('.phone'); // Input for username
+
   var $signupButton = $('.signup-form .submit');
 
   var $conversation = $('#conversation'); // Messages area
@@ -36,7 +36,11 @@ $(function() {
   }
 
   $signupButton.click(function(){
-    console.error("click");
+    username = cleanInput($usernameInput.val().trim());
+    if(username){
+      login(username);
+    }
+
   });
 
   function login (data) {
