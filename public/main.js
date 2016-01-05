@@ -32,7 +32,7 @@ $(function() {
   var socket = io();
 
   if (typeof localStorage["username"] != 'undefined'){
-    //login(localStorage["username"]);
+    login(localStorage["username"]);
   }
 
   $signupButton.click(function(){
@@ -45,7 +45,7 @@ $(function() {
 
   function login (data) {
     username="/user/"+data;
-    console.error("[socket emit] login");
+    console.error("[socket emit] login :: "+username);
     socket.emit('login',username);
   }
 
