@@ -242,7 +242,7 @@ $(function() {
   });
 
   socket.on('receiver name',function (data){
-    $title.html(data);
+    //$title.html(data);
   });
 
   socket.on('user header',function (data){
