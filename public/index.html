@@ -82,24 +82,35 @@
   </style>
 </head>
 <body>
-  <div class="header">
-    <div class="header-title">hola</div>
-  </div>
   <div class="login">
+    <h1>Abanca</h1>
+    <h3>Onlie</h3>
+    <p>Bienvenido a nuestro chat online Nuestro horario de atención es de 9:00 a 18:00 de Lunes a Viernes</p>
+    <form>
+      <div class=''>
+        <p>No queremos que estés esperando, introduce tu número de teléfono o email para que aunque cierres la conversación podamos avisarte</p>
+        <input type='text'/>
+      </div>
+    </form>
   </div>
   <div class="chat" style='display:none'>
+    <div class="header">
+      <div class="header-title">hola</div>
+    </div>
     <div class="content">
       <div id="conversation" class='conversation-content'>
+        <form>
+
+        </form>
+      </div>
+      <div class="footer">
+        <form id='add_message' method="POST">
+          <input type='file' class='file' value="SEND"/>
+          <input type='text' id='message' class='message' placeholder="Type new message"/>
+          <input type='submit' class='submit' value="SEND"/>
+        </form>
       </div>
     </div>
-    <div class="footer">
-      <form id='add_message' method="POST">
-        <input type='file' class='file' value="SEND"/>
-        <input type='text' id='message' class='message' placeholder="Type new message"/>
-        <input type='submit' class='submit' value="SEND"/>
-      </form>
-    </div>
-    
   </div>
 
   <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
