@@ -73,7 +73,7 @@ io.on('connection', function (socket) {
           if (err) throw err;
           if (rows==0){
             console.log("[socket.emit] login error");
-            socket.emit('login_error');
+            socket.emit('login_error',1);
           }else{
             socket.sender = username;
             addedUser = true;
