@@ -37,7 +37,6 @@ $(function() {
 
   $signupButton.click(function(){
     username = cleanInput($usernameInput.val().trim());
-    console.error(username);
     if(username){
       login(username);
     }

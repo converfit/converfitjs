@@ -65,6 +65,7 @@ io.on('connection', function (socket) {
     });
 
     socket.on('login', function (username){
+      console.log("[socket.on] login");
 
       var queryString = 'SELECT * FROM users WHERE username="'+username+'"';
       console.log("[MySQL] "+queryString);
