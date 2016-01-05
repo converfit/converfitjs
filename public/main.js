@@ -32,7 +32,7 @@ $(function() {
   var socket = io();
 
   if (typeof localStorage["username"] != 'undefined'){
-    login(localStorage["username"]);
+    //login(localStorage["username"]);
   }
 
   $signupButton.click(function(){
