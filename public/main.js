@@ -13,6 +13,7 @@ $(function() {
   var $headerTitle = $('header-title');
   var $usernameInput = $('.usernameInput'); // Input for username
   var $passwordInput = $('.passwordInput'); // Input for username
+  var $signupButton = $('.signup-form .submit');
 
   var $conversation = $('#conversation'); // Messages area
 
@@ -33,6 +34,10 @@ $(function() {
   if (typeof localStorage["username"] != 'undefined'){
     login(localStorage["username"]);
   }
+
+  $signupButton.click(function(){
+    console.error("click");
+  });
 
   function login (data) {
     username="/user/"+data;
