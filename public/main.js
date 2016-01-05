@@ -237,7 +237,8 @@ $(function() {
   });
 
   socket.on('login error', function (data) {
-    localStorage.removeItem(username);
+    console
+    localStorage.removeItem("username");
     username=false;
   });
 
