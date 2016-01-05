@@ -10,6 +10,7 @@ $(function() {
   // Initialize variables
   var $window = $(window);
   var $header = $('.header');
+  var $headerTitle = $('header-title');
   var $usernameInput = $('.usernameInput'); // Input for username
   var $passwordInput = $('.passwordInput'); // Input for username
 
