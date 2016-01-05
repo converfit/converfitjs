@@ -93,7 +93,8 @@ io.on('connection', function (socket) {
                   socket.emit('messages backup', rows);
                 }
             });
-
+            
+            console.log("[socket.emit] logged");
             socket.emit('logged');
 
             socket.broadcast.emit('user joined', {
