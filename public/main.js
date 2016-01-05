@@ -235,7 +235,7 @@ $(function() {
     $chatPage.fadeIn();
   });
 
-  socket.on('login error', function () {
+  socket.on('login_error', function () {
     console.error("[socket.on] login error");
     localStorage.removeItem("username");
     username=false;
