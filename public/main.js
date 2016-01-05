@@ -233,11 +233,10 @@ $(function() {
     connected = true;
     $loginPage.fadeOut();
     $chatPage.fadeIn();
-
   });
 
-  socket.on('login error', function (data) {
-    console
+  socket.on('login error', function () {
+    console.error("[socket.on] login error");
     localStorage.removeItem("username");
     username=false;
   });
