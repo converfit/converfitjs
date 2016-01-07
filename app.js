@@ -44,8 +44,6 @@ app.get("/user/*",function(req, res){
 
 io.on('connection', function (socket) {
 
-
-
   var addedUser = false;
   if(typeof receiver.username != 'undefined'){
     console.log("receiver.username="+receiver.username);
@@ -54,11 +52,12 @@ io.on('connection', function (socket) {
     console.log("[MySQL] "+queryString);
     db.query(queryString,function(err, rows, fields) {
         if (err){
-          console.log("[socket.emit] login error");
-          socket.emit('login_error',1);
+          console.log("[socket.emit] brand not valid");
+          socket.emit('brand not valid',1);
         }
         if (rows==0){
-          res.sendFile(__dirname + '/404/index.html');
+          console.log("[socket.emit] brand not valid");
+          socket.emit('brand not valid',1);
         }else{
           socket.receiver=rows[0].username;
           socket.header=rows[0].header;
