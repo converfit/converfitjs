@@ -46,7 +46,7 @@ $(function() {
     }
   });
   $signupButton.click(function(){
-    signupForm.submit();
+    $signupForm.submit();
   });
 
   function login (data) {
