@@ -39,6 +39,7 @@ $(function() {
 
   $signupForm.submit(function(e){
     e.preventDefault();
+    alert();
     username = cleanInput($usernameInput.val().trim());
     if(username){
       login(username);
