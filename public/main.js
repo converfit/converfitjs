@@ -13,6 +13,8 @@ $(function() {
   var $headerTitle = $('header-title');
   var $usernameInput = $('.phone'); // Input for username
 
+
+  var $signupForm = $('.signup-form');
   var $signupButton = $('.signup-form .submit');
 
   var $conversation = $('#conversation'); // Messages area
@@ -35,12 +37,18 @@ $(function() {
     login(localStorage["username"]);
   }
 
+  $signupForm.submit(function(e){
+    e.preventDefault();
+    username = cleanInput($usernameInput.val().trim());
+    if(username){
+      login(username);
+    }
+  });
   $signupButton.click(function(){
     username = cleanInput($usernameInput.val().trim());
     if(username){
       login(username);
     }
-
   });
 
   function login (data) {
