@@ -95,7 +95,7 @@ $(function() {
       message+='<div class="messages-block-them" style="">';
     }
     message+='  <div class="message">';
-    message+='    <p class="bubble">'+data.body+'</p>';
+    message+='    <p class="bubble">'+data.sender+'>'+data.body+'</p>';
     message+='    <div class="clearfix"></div>';
     message+='    <p class="time">21:22</p>';
     message+='  </div>';
