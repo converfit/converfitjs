@@ -89,7 +89,11 @@ $(function() {
     }
 
     message='';
-    message+='<div class="messages-block-them" style="">';
+    if(data.sender==username){
+      message+='<div class="messages-block-me" style="">';
+    }else{
+      message+='<div class="messages-block-them" style="">';
+    }
     message+='  <div class="message">';
     message+='    <p class="bubble">'+data.body+'</p>';
     message+='    <div class="clearfix"></div>';
