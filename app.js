@@ -38,7 +38,18 @@ var receiver={};
 
 app.get("/user/*",function(req, res){
   receiver.username=req.url;
-  res.sendFile(__dirname + '/public/index.html');
+  var queryString = 'SELECT * FROM users WHERE username="'+receiver.username+'"';
+  console.log("[MySQL] "+queryString);
+  db.query(queryString,function(err, rows, fields) {
+      if (err){
+        res.sendFile(__dirname + '/404/index.html');
+      }
+      if (rows==0){
+        res.sendFile(__dirname + '/404/index.html');
+      }else{
+        res.sendFile(__dirname + '/public/index.html');
+      }
+  });
 });
 
 
