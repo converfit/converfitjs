@@ -77,6 +77,18 @@ io.on('connection', function (socket) {
         }
     });
 
+    socket.on('backup messages', function (receiver){
+      var queryString = 'SELECT * FROM messages WHERE owner="'+socket.sender+'" and (sender="'+socket.receiver+'" or receiver="'+socket.receiver+'")';
+      console.log("[MySQL] "+queryString);
+      db.query(queryString,function(err, rows, fields) {
+          if (err) throw err;
+          if (rows!=0){
+            socket.emit('backup messages', rows);
+          }
+      });
+
+    });
+
     socket.on('login', function (username){
       console.log("[socket.on] login");
 
@@ -98,16 +110,6 @@ io.on('connection', function (socket) {
             console.log("[MySQL] "+queryString);
             db.query(queryString,function(err) {
                 if (err) throw err;
-            });
-
-
-            var queryString = 'SELECT * FROM messages WHERE owner="'+socket.sender+'" and (sender="'+socket.receiver+'" or receiver="'+socket.receiver+'")';
-            console.log("[MySQL] "+queryString);
-            db.query(queryString,function(err, rows, fields) {
-                if (err) throw err;
-                if (rows!=0){
-                  socket.emit('messages backup', rows);
-                }
             });
 
             console.log("[socket.emit] logged");

@@ -39,12 +39,12 @@ $(function() {
 
   $signupForm.submit(function(e){
     e.preventDefault();
-    alert();
     username = cleanInput($usernameInput.val().trim());
     if(username){
       login(username);
     }
   });
+
   $signupButton.click(function(){
     $signupForm.submit();
   });
@@ -239,6 +239,7 @@ $(function() {
     connected = true;
     $loginPage.fadeOut();
     $chatPage.fadeIn();
+    socket.emit('backup messages',{receiver:'/user/abanca'})
   });
 
   socket.on('login_error', function (data) {
@@ -255,7 +256,7 @@ $(function() {
     //$conversation.html(data);
   });
 
-  socket.on('messages backup',function (data){
+  socket.on('backup messages',function (data){
     $.each(data, function(index, message){
       addChatMessage(message);
     });
