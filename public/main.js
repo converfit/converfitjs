@@ -46,10 +46,7 @@ $(function() {
     }
   });
   $signupButton.click(function(){
-    username = cleanInput($usernameInput.val().trim());
-    if(username){
-      login(username);
-    }
+    signupForm.submit();
   });
 
   function login (data) {
