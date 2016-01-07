@@ -34,7 +34,7 @@ var receiver={};
 
 // Routing
 
-//app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/public'));
 
 app.get("/user/*",function(req, res){
   receiver.username=req.url;
