@@ -53,7 +53,10 @@ io.on('connection', function (socket) {
     var queryString = 'SELECT * FROM users WHERE username="'+receiver.username+'"';
     console.log("[MySQL] "+queryString);
     db.query(queryString,function(err, rows, fields) {
-        if (err) throw err;
+        if (err){
+          console.log("[socket.emit] login error");
+          socket.emit('login_error',1);
+        }
         if (rows==0){
           res.sendFile(__dirname + '/404/index.html');
         }else{
