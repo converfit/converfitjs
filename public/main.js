@@ -207,11 +207,6 @@ $(function() {
         sendMessage();
         socket.emit('stop typing');
         typing = false;
-      } else {
-        username = cleanInput($usernameInput.val().trim());
-        if(username){
-          login(username);
-        }
       }
     }
   });
