@@ -141,9 +141,9 @@ $(function() {
       $el.hide().fadeIn(FADE_TIME);
     }
     if (options.prepend) {
-      $messages.prepend($el);
+      $conversation.prepend($el);
     } else {
-      $messages.append($el);
+      $conversation.append($el);
     }
     $conversation.append(message);
 
