@@ -88,19 +88,17 @@ $(function() {
       $typingMessages.remove();
     }
 
-    var $usernameDiv = $('<span class="username"/>')
-      .text(data.sender)
-      .css('color', getUsernameColor(data.sender));
-    var $messageBodyDiv = $('<span class="messageBody">')
-      .text(data.body);
+    message='';
+    message+='<div class="messages-block-them" style="">';
+    message+='  <div class="message">';
+    message+='    <p class="bubble">'+data.body+'</p>';
+    message+='    <div class="clearfix"></div>';
+    message+='    <p class="time">21:22</p>';
+    message+='  </div>';
+    message+='  <div class="clearfix"></div>';
+    message+='</div>';
 
-    var typingClass = data.typing ? 'typing' : '';
-    var $messageDiv = $('<li class="message"/>')
-      .data('username', data.sender)
-      .addClass(typingClass)
-      .append($usernameDiv, $messageBodyDiv);
-
-    addMessageElement($messageDiv, options);
+    addMessageElement(message, options);
   }
 
   // Adds the visual chat typing message
