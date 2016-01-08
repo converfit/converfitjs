@@ -122,6 +122,7 @@ io.on('connection', function (socket) {
         unread:"0"
       };
 
+      console.log("[MySQL] INSERT INTO messages SET 1");
       db.query('INSERT INTO messages SET ?', message, function(err,res){
         if(err) throw err;
       });
@@ -135,6 +136,7 @@ io.on('connection', function (socket) {
         unread:"1"
       };
 
+      console.log("[MySQL] INSERT INTO messages SET 2");
       db.query('INSERT INTO messages SET ?', message, function(err,res){
         if(err) throw err;
       });
