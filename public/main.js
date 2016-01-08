@@ -18,7 +18,7 @@ $(function() {
   var $signupButton = $('.signup-form .submit');
 
   var $conversation = $('#conversation'); // Messages area
-  var $content=$('#content');
+  var $content=$('.content');
   var $inputMessage = $('#inputMessage'); // Input message input box
   var $addMessageForm = $('#add_message');
   var $loginPage = $('.login.page'); // The login page
