@@ -126,7 +126,7 @@ $(function() {
   // Adds the visual chat typing message
   function addChatTyping (data) {
     data.typing = true;
-    data.body = '<img src="../../assets/img/typing.png"/>';
+    data.body = '<img src="http://www.converfit.com/node-server/public/assets/img/typing.gif"/>';
     addChatMessage(data);
   }
 
