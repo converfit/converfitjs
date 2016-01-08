@@ -31,6 +31,7 @@ db.query(queryString,function(err) {
 
 //
 var receiver={};
+var sender={};
 
 // Routing
 
@@ -57,12 +58,13 @@ io.on('connection', function (socket) {
 
   var addedUser = false;
   if(typeof receiver.username != 'undefined'){
+
     console.log("receiver.username="+receiver.username);
+
     socket.emit('send receiver',receiver);
 
-
     socket.on('backup messages', function (receiver){
-      var queryString = 'SELECT * FROM messages WHERE owner="'+socket.sender+'" and (sender="'+receiver.username+'" or receiver="'+receiver.username+'")';
+      var queryString = 'SELECT * FROM messages WHERE owner="'+sender.username+'" and (sender="'+receiver.username+'" or receiver="'+receiver.username+'")';
       console.log("[MySQL] "+queryString);
       db.query(queryString,function(err, rows, fields) {
           if (err) throw err;
@@ -70,7 +72,6 @@ io.on('connection', function (socket) {
             socket.emit('backup messages', rows);
           }
       });
-
     });
 
     socket.on('login', function (username){
@@ -87,10 +88,10 @@ io.on('connection', function (socket) {
             console.log("[socket.emit] login error");
             socket.emit('login_error',1);
           }else{
-            socket.sender = username;
+            sender.username = username;
             addedUser = true;
 
-            var queryString = 'INSERT INTO sockets SET socketid="'+socket.id+'", sender="'+socket.sender+'", receiver="'+receiver.username+'"';
+            var queryString = 'INSERT INTO sockets SET socketid="'+socket.id+'", sender="'+sender.username+'", receiver="'+receiver.username+'"';
             console.log("[MySQL] "+queryString);
             db.query(queryString,function(err) {
                 if (err) throw err;
@@ -110,8 +111,8 @@ io.on('connection', function (socket) {
     socket.on('new message', function (data) {
 
       var message ={
-        owner:socket.sender,
-        sender:socket.sender,
+        owner:sender.username,
+        sender:sender.username,
         receiver:receiver.username,
         type:"chat",
         body:data,
@@ -124,7 +125,7 @@ io.on('connection', function (socket) {
 
       var message ={
         owner:receiver.username,
-        sender:socket.sender,
+        sender:sender.username,
         receiver:receiver.username,
         type:"chat",
         body:data,
@@ -135,13 +136,13 @@ io.on('connection', function (socket) {
         if(err) throw err;
       });
 
-      var queryString = 'SELECT * FROM sockets WHERE (sender="'+receiver.username+'" and receiver="'+socket.sender+'") or (sender="'+socket.sender+'" and receiver="'+receiver.username+'" and socketid<>"'+socket.id+'")';
+      var queryString = 'SELECT * FROM sockets WHERE (sender="'+receiver.username+'" and receiver="'+sender.username+'") or (sender="'+sender.username+'" and receiver="'+receiver.username+'" and socketid<>"'+socket.id+'")';
       console.log("[MySQL] "+queryString);
       db.query(queryString,function(err, rows, fields) {
           if (err) throw err;
           for (var i = 0; i < rows.length; i++) {
             socket.to(rows[i].socketid).emit('new message',  {
-              sender: socket.sender,
+              sender: sender.username,
               body: data
             });
           }
@@ -150,13 +151,13 @@ io.on('connection', function (socket) {
 
     // when the client emits 'typing', we broadcast it to others
     socket.on('typing', function () {
-      var queryString = 'SELECT * FROM sockets WHERE (sender="'+receiver.username+'" and receiver="'+socket.sender+'") or (sender="'+socket.sender+'" and receiver="'+receiver.username+'" and socketid<>"'+socket.id+'")';
+      var queryString = 'SELECT * FROM sockets WHERE (sender="'+receiver.username+'" and receiver="'+sender.username+'") or (sender="'+sender.username+'" and receiver="'+receiver.username+'" and socketid<>"'+socket.id+'")';
       console.log("[MySQL] "+queryString);
       db.query(queryString,function(err, rows, fields) {
           if (err) throw err;
           for (var i = 0; i < rows.length; i++) {
             socket.to(rows[i].socketid).emit('typing', {
-              sender: socket.sender
+              sender: sender.username
             });
           }
       });
@@ -164,13 +165,13 @@ io.on('connection', function (socket) {
 
     // when the client emits 'stop typing', we broadcast it to others
     socket.on('stop typing', function () {
-      var queryString = 'SELECT * FROM sockets WHERE (sender="'+receiver.username+'" and receiver="'+socket.sender+'") or (sender="'+socket.sender+'" and receiver="'+receiver.username+'" and socketid<>"'+socket.id+'")';
+      var queryString = 'SELECT * FROM sockets WHERE (sender="'+receiver.username+'" and receiver="'+sender.username+'") or (sender="'+sender.username+'" and receiver="'+receiver.username+'" and socketid<>"'+socket.id+'")';
       console.log("[MySQL] "+queryString);
       db.query(queryString,function(err, rows, fields) {
           if (err) throw err;
           for (var i = 0; i < rows.length; i++) {
             socket.to(rows[i].socketid).emit('stop typing', {
-              sender: socket.sender
+              sender: sender.username
             });
           }
       });
@@ -182,7 +183,7 @@ io.on('connection', function (socket) {
 
         console.log("Socket disconnect "+socket.id);
 
-        var queryString = 'DELETE FROM sockets WHERE socketid="'+socket.id+'" and sender="'+socket.sender+'" and receiver="'+receiver.username+'"';
+        var queryString = 'DELETE FROM sockets WHERE socketid="'+socket.id+'" and sender="'+sender.username+'" and receiver="'+receiver.username+'"';
         console.log("[MySQL] "+queryString);
         db.query(queryString,function(err) {
             if (err) throw err;
