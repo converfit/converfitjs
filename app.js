@@ -55,6 +55,8 @@ app.get("/user/*",function(req, res){
 
 io.on('connection', function (socket) {
 
+  var addedUser = false;
+
   socket.receiver={};
   socket.sender={};
 
@@ -63,9 +65,8 @@ io.on('connection', function (socket) {
   db.query(queryString,function(err, rows, fields) {
       socket.receiver=rows[0];
   });
+  console.log(socket.receiver.username);
 
-
-  var addedUser = false;
   if(typeof socket.receiver.username != 'undefined'){
 
     console.log("socket.receiver.username="+socket.receiver.username);
