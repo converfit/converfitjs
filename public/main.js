@@ -37,6 +37,7 @@ $(function() {
 
 
   function play_beep(){
+    $(".audioBeep").trigger('stop');
     $(".audioBeep").trigger('play');
   }
 
