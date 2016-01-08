@@ -123,12 +123,15 @@ $(function() {
     if(type=="typing"){
       block_class+=" typing";
     }
+
+    created= new Date(Date.parse(data.created));
+
     message+='<div class="'+block_class+'" style="">';
 
     message+='  <div class="message">';
     message+='    <p class="bubble">'+data.body+'</p>';
     message+='    <div class="clearfix"></div>';
-    message+='    <p class="time">'+typeof data.created+' </p>';
+    message+='    <p class="time">'+created+' </p>';
     message+='  </div>';
     message+='  <div class="clearfix"></div>';
     message+='</div>';
