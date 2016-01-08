@@ -151,7 +151,7 @@ io.on('connection', function (socket) {
           if (err) throw err;
           for (var i = 0; i < rows.length; i++) {
             socket.to(rows[i].socketid).emit('new message',  {
-              socket.sender: socket.sender.username,
+              sender: socket.sender.username,
               body: data
             });
           }
@@ -166,7 +166,7 @@ io.on('connection', function (socket) {
           if (err) throw err;
           for (var i = 0; i < rows.length; i++) {
             socket.to(rows[i].socketid).emit('typing', {
-              socket.sender: socket.sender.username
+              sender: socket.sender.username
             });
           }
       });
@@ -180,7 +180,7 @@ io.on('connection', function (socket) {
           if (err) throw err;
           for (var i = 0; i < rows.length; i++) {
             socket.to(rows[i].socketid).emit('stop typing', {
-              socket.sender: socket.sender.username
+              sender: socket.sender.username
             });
           }
       });
