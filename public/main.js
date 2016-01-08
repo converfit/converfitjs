@@ -126,7 +126,7 @@ $(function() {
   // Adds the visual chat typing message
   function addChatTyping (data) {
     data.typing = true;
-    data.body = 'is typing';
+    data.body = '<img src="../../assets/img/typing.png"/>';
     addChatMessage(data);
   }
 
