@@ -97,7 +97,7 @@ $(function() {
   }
 
   // Adds the visual chat message to the message list
-  function addChatMessage (data, options) {
+  function addChatMessage (data, type, options) {
     // Don't fade the message in if there is an 'X was typing'
     var $typingMessages = getTypingMessages(data);
     options = options || {};
@@ -108,10 +108,15 @@ $(function() {
 
     message='';
     if(data.sender==username){
-      message+='<div class="messages-block-me" style="">';
+      block_class="messages-block-me";
     }else{
-      message+='<div class="messages-block-them" style="">';
+      block_class="messages-block-them";
     }
+    if(type=="typing"){
+      block_class+=" typing";
+    }
+    message+='<div class="'+block_class+'" style="">';
+
     message+='  <div class="message">';
     message+='    <p class="bubble">'+data.body+'</p>';
     message+='    <div class="clearfix"></div>';
@@ -126,8 +131,8 @@ $(function() {
   // Adds the visual chat typing message
   function addChatTyping (data) {
     data.typing = true;
-    data.body = '<img src="http://www.converfit.com/node-server/public/assets/img/typing.gif"/>';
-    addChatMessage(data);
+    data.body = '<img class="typing" src="http://www.converfit.com/node-server/public/assets/img/typing.gif" style="width:25px;"/>';
+    addChatMessage(data,"typing");
   }
 
   // Removes the visual chat typing message
