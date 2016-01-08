@@ -165,9 +165,8 @@ $(function() {
     } else {
       $conversation.append($el);
     }
-    $conversation.append(message);
 
-    $conversation[0].scrollTop = $conversation[0].scrollHeight;
+    $conversation.scrollTop = $conversation.scrollHeight;
   }
 
   // Prevents input from having injected markup
