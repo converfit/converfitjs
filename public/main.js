@@ -37,7 +37,8 @@ $(function() {
 
 
   function play_beep(){
-    $(".audioBeep").trigger('stop');
+    $(".audioDemo").trigger('pause');
+    $(".audioDemo").prop("currentTime",0);
     $(".audioBeep").trigger('play');
   }
 
