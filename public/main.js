@@ -52,6 +52,7 @@ $(function() {
 
   function login (data) {
     username="/user/"+data;
+    console.error('[socket emit] login');
     socket.emit('login',username);
   }
 
