@@ -128,7 +128,7 @@ $(function() {
     message+='  <div class="message">';
     message+='    <p class="bubble">'+data.body+'</p>';
     message+='    <div class="clearfix"></div>';
-    message+='    <p class="time">21:22</p>';
+    message+='    <p class="time">'+data.created+'</p>';
     message+='  </div>';
     message+='  <div class="clearfix"></div>';
     message+='</div>';
@@ -259,13 +259,6 @@ $(function() {
     username=false;
   });
 
-  socket.on('receiver name',function (data){
-    //$title.html(data);
-  });
-
-  socket.on('user header',function (data){
-    //$conversation.html(data);
-  });
 
   socket.on('backup messages',function (data){
     $.each(data, function(index, message){
