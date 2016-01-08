@@ -246,7 +246,7 @@ $(function() {
     connected = true;
     $loginPage.fadeOut();
     $chatPage.fadeIn();
-    socket.emit('backup messages',{receiver.username})
+    socket.emit('backup messages',receiver)
   });
 
   socket.on('login_error', function (data) {
