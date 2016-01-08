@@ -121,8 +121,8 @@ io.on('connection', function (socket) {
 
       var message ={
         owner:socket.sender.username,
-        socket.sender:socket.sender.username,
-        socket.receiver:socket.receiver.username,
+        sender:socket.sender.username,
+        receiver:socket.receiver.username,
         type:"chat",
         body:data,
         unread:"0"
@@ -134,8 +134,8 @@ io.on('connection', function (socket) {
 
       var message ={
         owner:socket.receiver.username,
-        socket.sender:socket.sender.username,
-        socket.receiver:socket.receiver.username,
+        sender:socket.sender.username,
+        receiver:socket.receiver.username,
         type:"chat",
         body:data,
         unread:"1"
