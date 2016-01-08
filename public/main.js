@@ -142,10 +142,14 @@ $(function() {
   function getDigitalHour(timestamp){
     h=timestamp.getHours();
     m=timestamp.getMinutes();
-    if (h<10){
+    if (h==0){
+      h='00';
+    }else if (h<10){
       h='0'+h;
     }
-    if (m<10){
+    if (m==0){
+      m='00';
+    }else if (m<10){
       m='0'+m;
     }
     return h+":"+m;
