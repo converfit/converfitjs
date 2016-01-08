@@ -166,7 +166,7 @@ $(function() {
       $conversation.append($el);
     }
     console.error("$conversation.scrollHeight="+$conversation[0].scrollHeight);
-    $conversation.scrollTop = $conversation.scrollHeight;
+    $conversation.scrollTop = $conversation[0].scrollHeight;
   }
 
   // Prevents input from having injected markup
