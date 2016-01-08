@@ -34,6 +34,13 @@ $(function() {
 
   var socket = io();
 
+
+
+  function play_beep(){
+    $(".audioBeep").trigger('play');
+  }
+
+
   if (typeof localStorage["username"] != 'undefined'){
     login(localStorage["username"]);
   }
@@ -270,6 +277,7 @@ $(function() {
   // Whenever the server emits 'new message', update the chat body
   socket.on('new message', function (data) {
     addChatMessage(data);
+    play_beep();
   });
 
   // Whenever the server emits 'typing', show the typing message

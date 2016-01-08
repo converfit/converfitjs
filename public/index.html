@@ -45,7 +45,8 @@
     font-weight: 100;
   }
   .content{
-    height:calc(100% - 126px);overflow:auto;
+    height:calc(100% - 128px);
+    overflow:auto;
   }
   .conversation-content{
     padding-top:50px;
@@ -251,6 +252,9 @@
   </style>
 </head>
 <body>
+  <audio class='hide audioBeep' controls preload='yes' >
+    <source src='../assets/sounds/beep.wav' type='audio/mpeg'>
+  </audio>
   <div class="login page">
     <div class='avatar'>
       <i class='status offline'></i>
