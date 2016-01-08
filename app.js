@@ -111,7 +111,7 @@ io.on('connection', function (socket) {
       });
     });
 
-    socket.on('new message', function (data) {
+    socket.on('add message', function (data) {
 
       var message ={
         owner:socket.sender.username,
