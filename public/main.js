@@ -20,7 +20,7 @@ $(function() {
   var $conversation = $('#conversation'); // Messages area
 
   var $inputMessage = $('#inputMessage'); // Input message input box
-
+  var $addMessageForm = $('#add_message');
   var $loginPage = $('.login.page'); // The login page
   var $chatPage = $('.chat.page'); // The chatroom page
 
@@ -46,6 +46,15 @@ $(function() {
     }
   });
 
+  $addMessageForm.submit(function(e){
+    e.preventDefault();
+    message = cleanInput($inputMessage.val().trim());
+    if(message){
+      sendMessage(username);
+      $inputMessage.val('');
+    }
+  });
+
   $signupButton.click(function(){
     $signupForm.submit();
   });
@@ -63,16 +72,13 @@ $(function() {
   });
 
   // Sends a chat message
-  function sendMessage () {
-    var message = $inputMessage.val();
-    // Prevent markup from being injected into the message
-    message = cleanInput(message);
+  function sendMessage (message) {
+
     // if there is a non-empty message and a socket connection
     if (message && connected) {
-      $inputMessage.val('');
       addChatMessage({
         sender: username,
-        receiver: username,
+        receiver: receiver.username,
         body: message
       });
       // tell server to execute 'new message' and send along one parameter
