@@ -72,7 +72,7 @@ io.on('connection', function (socket) {
 
     socket.emit('send receiver',socket.receiver);
 
-    socket.on('backup messages', function (socket.receiver){
+    socket.on('backup messages', function (data){
       var queryString = 'SELECT * FROM messages WHERE owner="'+socket.sender.username+'" and (socket.sender="'+socket.receiver.username+'" or socket.receiver="'+socket.receiver.username+'")';
       console.log("[MySQL] "+queryString);
       db.query(queryString,function(err, rows, fields) {
@@ -97,7 +97,7 @@ io.on('connection', function (socket) {
             console.log("[socket.emit] login error");
             socket.emit('login_error',1);
           }else{
-            socket.sender.username = username;
+            socket.sender = rows[0];
             addedUser = true;
 
             var queryString = 'INSERT INTO sockets SET socketid="'+socket.id+'", socket.sender="'+socket.sender.username+'", socket.receiver="'+socket.receiver.username+'"';
