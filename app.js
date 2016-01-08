@@ -70,6 +70,7 @@ io.on('connection', function (socket) {
           console.log("[socket.emit] brand not valid");
           socket.emit('brand not valid',1);
         }else{
+          socket.emit('send receiver',receiver.username);
           socket.receiver=rows[0].username;
           socket.header=rows[0].header;
           socket.emit('user header',socket.header);
