@@ -55,8 +55,8 @@ app.get("/user/*",function(req, res){
 
 io.on('connection', function (socket) {
 
-  var socket.receiver={};
-  var socket.sender={};
+  socket.receiver={};
+  socket.sender={};
 
   var queryString = 'SELECT username FROM users WHERE username="'+req.url+'"';
   console.log("[MySQL] "+queryString);
