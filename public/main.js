@@ -128,7 +128,7 @@ $(function() {
     message+='  <div class="message">';
     message+='    <p class="bubble">'+data.body+'</p>';
     message+='    <div class="clearfix"></div>';
-    message+='    <p class="time">'+data.created+'</p>';
+    message+='    <p class="time">'+typeof data.created+' </p>';
     message+='  </div>';
     message+='  <div class="clearfix"></div>';
     message+='</div>';
