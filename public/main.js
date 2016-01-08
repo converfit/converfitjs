@@ -50,8 +50,12 @@ $(function() {
     e.preventDefault();
     message = cleanInput($inputMessage.val().trim());
     if(message){
-      sendMessage(username);
       $inputMessage.val('');
+      console.error("[socket emit] stop typing");
+      socket.emit('stop typing');
+      typing = false;
+
+      sendMessage(message);
     }
   });
 
@@ -213,22 +217,6 @@ $(function() {
   }
 
   // Keyboard events
-
-  $window.keydown(function (event) {
-    // Auto-focus the current input when a key is typed
-    /*if (!(event.ctrlKey || event.metaKey || event.altKey)) {
-      $currentInput.focus();
-    }*/
-    // When the client hits ENTER on their keyboard
-    if (event.which === 13) {
-      if (username) {
-        sendMessage();
-        console.error("[socket emit] stop typing");
-        socket.emit('stop typing');
-        typing = false;
-      }
-    }
-  });
 
   $inputMessage.on('input', function() {
     updateTyping();
