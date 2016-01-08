@@ -57,15 +57,8 @@ io.on('connection', function (socket) {
 
   var addedUser = false;
 
-  socket.receiver={};
+  socket.receiver=receiver;
   socket.sender={};
-
-  var queryString = 'SELECT username FROM users WHERE username="'+receiver.username+'"';
-  console.log("[MySQL] "+queryString);
-  db.query(queryString,function(err, rows, fields) {
-      socket.receiver=rows[0];
-  });
-  console.log(socket.receiver.username);
 
   if(typeof socket.receiver.username != 'undefined'){
 
