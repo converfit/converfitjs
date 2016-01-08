@@ -98,19 +98,20 @@ $(function() {
 
   // Adds the visual chat message to the message list
   function addChatMessage (data, type, options) {
-    // Don't fade the message in if there is an 'X was typing'
-    var $typingMessages = getTypingMessages(data);
-    options = options || {};
-    if ($typingMessages.length !== 0) {
-      options.fade = false;
-      $typingMessages.remove();
-    }
 
     message='';
     if(data.sender==username){
       block_class="messages-block-me";
     }else{
+      var $typingMessages = getTypingMessages(data);
+      options = options || {};
+      if ($typingMessages.length !== 0) {
+        options.fade = false;
+        $typingMessages.remove();
+      }
+
       block_class="messages-block-them";
+
     }
     if(type=="typing"){
       block_class+=" typing";
@@ -118,7 +119,9 @@ $(function() {
     message+='<div class="'+block_class+'" style="">';
 
     message+='  <div class="message">';
-    message+='    <p class="bubble">'+data.body+'<br/><span class="time">21:22</span></p>';
+    message+='    <p class="bubble">'+data.body+'</p>';
+    message+='    <div class="clearfix"></div>';
+    message+='    <p class="time">21:22</p>';
     message+='  </div>';
     message+='  <div class="clearfix"></div>';
     message+='</div>';
