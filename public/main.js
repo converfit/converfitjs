@@ -131,12 +131,24 @@ $(function() {
     message+='  <div class="message">';
     message+='    <p class="bubble">'+data.body+'</p>';
     message+='    <div class="clearfix"></div>';
-    message+='    <p class="time">'+created.getHours()+':'+created.getMinutes()+' </p>';
+    message+='    <p class="time">'+getDigitalHour(created)+' </p>';
     message+='  </div>';
     message+='  <div class="clearfix"></div>';
     message+='</div>';
 
     addMessageElement(message, options);
+  }
+
+  function getDigitalHour(timestamp){
+    h=timestamp.getHours();
+    m=timestamp.getMinutes();
+    if (h<10){
+      h='0'+h;
+    }
+    if (m<10){
+      m='0'+m;
+    }
+    return h+":"+m;
   }
 
   // Adds the visual chat typing message
