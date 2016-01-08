@@ -165,7 +165,7 @@ $(function() {
     } else {
       $conversation.append($el);
     }
-    console.error("$conversation.scrollHeight="+$conversation.scrollHeight);
+    console.error("$conversation.scrollHeight="+$conversation[0].scrollHeight);
     $conversation.scrollTop = $conversation.scrollHeight;
   }
 
