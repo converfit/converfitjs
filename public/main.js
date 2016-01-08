@@ -118,9 +118,7 @@ $(function() {
     message+='<div class="'+block_class+'" style="">';
 
     message+='  <div class="message">';
-    message+='    <p class="bubble">'+data.body+'</p>';
-    message+='    <div class="clearfix"></div>';
-    message+='    <p class="time">21:22</p>';
+    message+='    <p class="bubble">'+data.body+'<br/><span class="time">21:22</span></p>';
     message+='  </div>';
     message+='  <div class="clearfix"></div>';
     message+='</div>';
