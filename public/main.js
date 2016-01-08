@@ -24,9 +24,8 @@ $(function() {
   var $loginPage = $('.login.page'); // The login page
   var $chatPage = $('.chat.page'); // The chatroom page
 
-  var users={};
   var username;
-  var receiver;
+  var receiver={};
 
   var connected = false;
   var typing = false;
@@ -247,7 +246,7 @@ $(function() {
     connected = true;
     $loginPage.fadeOut();
     $chatPage.fadeIn();
-    socket.emit('backup messages',{receiver:'/user/abanca'})
+    socket.emit('backup messages',{receiver.username})
   });
 
   socket.on('login_error', function (data) {

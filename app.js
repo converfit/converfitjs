@@ -37,8 +37,7 @@ var receiver={};
 app.use(express.static(__dirname + '/public'));
 
 app.get("/user/*",function(req, res){
-  receiver.username=req.url;
-  var queryString = 'SELECT * FROM users WHERE username="'+receiver.username+'"';
+  var queryString = 'SELECT * FROM users WHERE username="'+req.url+'"';
   console.log("[MySQL] "+queryString);
   db.query(queryString,function(err, rows, fields) {
       if (err){
@@ -47,6 +46,7 @@ app.get("/user/*",function(req, res){
       if (rows==0){
         res.sendFile(__dirname + '/404/index.html');
       }else{
+        receiver=rows[0];
         res.sendFile(__dirname + '/public/index.html');
       }
   });
@@ -58,25 +58,12 @@ io.on('connection', function (socket) {
   var addedUser = false;
   if(typeof receiver.username != 'undefined'){
     console.log("receiver.username="+receiver.username);
+    socket.emit('send receiver',receiver);
+    socket.receiver=rows[0].username;
+    socket.header=rows[0].header;
+    socket.emit('user header',socket.header);
+    socket.emit('receiver name',rows[0].name);
 
-    var queryString = 'SELECT * FROM users WHERE username="'+receiver.username+'"';
-    console.log("[MySQL] "+queryString);
-    db.query(queryString,function(err, rows, fields) {
-        if (err){
-          console.log("[socket.emit] brand not valid");
-          socket.emit('brand not valid',1);
-        }
-        if (rows==0){
-          console.log("[socket.emit] brand not valid");
-          socket.emit('brand not valid',1);
-        }else{
-          socket.emit('send receiver',receiver.username);
-          socket.receiver=rows[0].username;
-          socket.header=rows[0].header;
-          socket.emit('user header',socket.header);
-          socket.emit('receiver name',rows[0].name);
-        }
-    });
 
     socket.on('backup messages', function (receiver){
       var queryString = 'SELECT * FROM messages WHERE owner="'+socket.sender+'" and (sender="'+socket.receiver+'" or receiver="'+socket.receiver+'")';
